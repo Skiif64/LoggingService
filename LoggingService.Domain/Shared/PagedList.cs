@@ -40,7 +40,7 @@ public class PagedList<TItem>
 
     public PagedList<TTo> Convert<TTo>(IEnumerable<TTo> enumerable)
     {
-        if(enumerable.Count() != CurrentCount)
+        if (enumerable.Count() != CurrentCount)
         {
             throw new ArgumentException("Enumerable count did not match pagedList count", nameof(enumerable));
         }
