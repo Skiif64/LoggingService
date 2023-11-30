@@ -15,7 +15,10 @@
     <ProjectReference Include="..\LoggingService.Domain\LoggingService.Domain.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <InternalsVisibleTo Include="LoggingService.Application.UnitTests"/>
+    <InternalsVisibleTo Include="LoggingService.Application.UnitTests" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Common\" />
   </ItemGroup>
 
 </Project>
