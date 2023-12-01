@@ -13,7 +13,8 @@ internal sealed class LogEventRepository : BaseRepository<LogEvent>, ILogEventRe
     public async Task<PagedList<LogEvent>> GetPagedByCollectionIdAsync(Guid collectionId, int pageIndex, int pageSize, CancellationToken cancellationToken)
     {
         var logs = Context.LogEvents
-            .Where(log => log.CollectionId == collectionId);
+            .Where(log => log.CollectionId == collectionId)
+            .OrderByDescending(log => log.Timestamp);
 
         return await AsyncPagedList.CreateAsync(logs, pageIndex, pageSize, cancellationToken);
     }

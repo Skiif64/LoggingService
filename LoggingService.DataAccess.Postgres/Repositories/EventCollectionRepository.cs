@@ -19,5 +19,7 @@ internal sealed class EventCollectionRepository : BaseRepository<EventCollection
                 .FirstOrDefaultAsync(collection => collection.Name == name, cancellationToken);
 
     public async Task<PagedList<EventCollection>> GetPagedAsync(int pageIndex, int pageSize, CancellationToken cancellationToken)
-        => await AsyncPagedList.CreateAsync(Context.EventCollections, pageIndex, pageSize, cancellationToken);
+        => await AsyncPagedList.CreateAsync(
+            Context.EventCollections.OrderBy(collection => collection.Name),
+            pageIndex, pageSize, cancellationToken);
 }
