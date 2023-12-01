@@ -28,12 +28,17 @@ public class CreateLogEventCommandHandlerTests : TestBase
     public async Task Handle_ShouldReturnSuccessResult_WhenDataIsValid()
     {
         var command = Fixture.Create<CreateLogEventCommand>();
+        var collection = Fixture.Build<EventCollection>()
+            .With(prop => prop.Events, new List<LogEvent>())
+            .Create();
         _collectionRepositoryMock.Setup(x => x.GetByNameAsync(command.CollectionName, default))
-            .ReturnsAsync(Fixture.Create<EventCollection>());
+            .ReturnsAsync(collection);
 
         var result = await _sut.Handle(command, CancellationToken);
 
         Assert.True(result.IsSuccess, $"Result is not success | error: {result.Error}");
+
+        collection.Events.Should().HaveCount(1);
     }
 
     [Fact]
