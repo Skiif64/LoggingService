@@ -3,14 +3,15 @@ using LoggingService.Domain.Features.LogEvents;
 using Microsoft.Extensions.DependencyInjection;
 using AutoFixture.Xunit2;
 using System.ComponentModel.DataAnnotations;
-using System.Drawing.Printing;
 
 namespace LoggingService.DataAccess.Postgres.IntegrationTest.Tests;
 public class LogEventRepositoryTests : TestBase
 {
+    private readonly ILogEventRepository _sut;
     public LogEventRepositoryTests(ApplicationFixture application) 
         : base(application)
     {
+        _sut = ScopeProvider.GetRequiredService<ILogEventRepository>();
     }
 
     [Theory, InlineAutoData]
@@ -23,9 +24,8 @@ public class LogEventRepositoryTests : TestBase
             .With(prop => prop.CollectionId, collectionId)
             .CreateMany(count);
         await SeedAsync(logs);
-        var sut = ScopeProvider.GetRequiredService<ILogEventRepository>();
 
-        var pagedList = await sut.GetPagedByCollectionIdAsync(collectionId, pageIndex, pageSize, CancellationToken);
+        var pagedList = await _sut.GetPagedByCollectionIdAsync(collectionId, pageIndex, pageSize, CancellationToken);
 
         pagedList.Items.Should().NotBeEmpty();
         pagedList.Items.Should().Contain(log => log.CollectionId == collectionId);
@@ -40,11 +40,22 @@ public class LogEventRepositoryTests : TestBase
             .With(prop => prop.CollectionId, collectionId)
             .CreateMany(20);
         await SeedAsync(logs);
-        var sut = ScopeProvider.GetRequiredService<ILogEventRepository>();
 
-        var pagedList = await sut.GetPagedByCollectionIdAsync(collectionId, 0, 20, CancellationToken);
+        var pagedList = await _sut.GetPagedByCollectionIdAsync(collectionId, 0, 20, CancellationToken);
 
         pagedList.Items.Should().NotBeEmpty();
         pagedList.Items.Should().BeInDescendingOrder(log => log.Timestamp);
+    }
+
+    [Fact]
+    public async Task CreateAsync_ShouldAddLogToDatabase()
+    {
+        var log = Fixture.Create<LogEvent>();
+
+        await _sut.CreateAsync(log, CancellationToken);
+        await Context.SaveChangesAsync(CancellationToken);
+
+        var actualLog = await GetFromDbAsync<LogEvent>(actual => actual.Id == log.Id);
+        actualLog.Should().NotBeNull();
     }
 }
