@@ -10,7 +10,7 @@ public class PagedList<TItem>
     public bool HasNextPage { get; }
     public bool HasPrevPage { get; }
 
-    private PagedList(IReadOnlyCollection<TItem> items,
+    protected PagedList(IReadOnlyCollection<TItem> items,
                       int pageIndex,
                       int pageSize,
                       int totalPages,

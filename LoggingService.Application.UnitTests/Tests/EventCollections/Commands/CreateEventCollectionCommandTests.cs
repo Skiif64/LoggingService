@@ -22,7 +22,7 @@ public class CreateEventCollectionCommandTests : TestBase
     [Fact]
     public async Task Handle_ShouldReturnSuccessResult_WhenCollectionIsValid()
     {
-        var command = new CreateEventCollectionCommand("TestCollection");
+        var command = new CreateEventCollectionCommand("TestCollection", Guid.NewGuid());
 
         var result = await _sut.Handle(command, CancellationToken);
 
@@ -34,7 +34,7 @@ public class CreateEventCollectionCommandTests : TestBase
     [Fact]
     public async Task Handle_ShouldReturnDuplicateError_WhenCollectionWithNameExists()
     {
-        var command = new CreateEventCollectionCommand("TestCollection");
+        var command = new CreateEventCollectionCommand("TestCollection", Guid.NewGuid());
         _collectionRepositoryMock.Setup(x => x.ExistByNameAsync(command.Name, CancellationToken))
             .ReturnsAsync(true);
 
@@ -49,7 +49,7 @@ public class CreateEventCollectionCommandTests : TestBase
     [Fact]
     public async Task Handle_ShouldReturnSaveChangesError_WhenUnableToSaveChanges()
     {
-        var command = new CreateEventCollectionCommand("TestCollection");
+        var command = new CreateEventCollectionCommand("TestCollection", Guid.NewGuid());
         UnitOfWorkMock.SetupGet(x => x.SaveChangesException)
             .Returns(new Exception());
         var result = await _sut.Handle(command, CancellationToken);
