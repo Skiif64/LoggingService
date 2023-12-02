@@ -1,7 +1,10 @@
 ﻿using AutoFixture.AutoMoq;
+using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
 using LoggingService.DataAccess.Postgres.IntegrationTest.Fixtures;
 using LoggingService.Domain.Base;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq.Expressions;
 
 namespace LoggingService.DataAccess.Postgres.IntegrationTest.TestBases;
 public abstract class TestBase : IAsyncLifetime, IClassFixture<ApplicationFixture>
@@ -34,6 +37,14 @@ public abstract class TestBase : IAsyncLifetime, IClassFixture<ApplicationFixtur
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         await context.Set<TEntity>().AddRangeAsync(entities);
         await context.SaveChangesAsync();
+    }
+
+    public async Task<TEntity?> GetFromDbAsync<TEntity>(Expression<Func<TEntity, bool>> predicate)
+        where TEntity : BaseEntity
+    {
+        await using var scope = Application.Provider.CreateAsyncScope();
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        return await context.Set<TEntity>().FirstOrDefaultAsync(predicate);
     }
 
     public Task InitializeAsync() 
