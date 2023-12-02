@@ -30,7 +30,7 @@ internal sealed class CreateEventCollectionCommandHandler
                 EventCollectionErrors.Duplicate(nameof(EventCollection.Name), request.Name));
         }
 
-        var collection = new EventCollection(Guid.NewGuid(), DateTime.UtcNow, request.Name);
+        var collection = new EventCollection(Guid.NewGuid(), DateTime.UtcNow, request.Name, request.ApplicationId);
 
         await _collectionRepository.CreateAsync(collection, cancellationToken);
 
