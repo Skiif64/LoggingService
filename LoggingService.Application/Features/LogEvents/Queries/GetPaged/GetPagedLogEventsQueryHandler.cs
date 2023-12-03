@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 
 namespace LoggingService.Application.Features.LogEvents.Queries.GetPaged;
 internal sealed class GetPagedLogEventsQueryHandler
-    : IQueryHandler<GetPagedLogEventsQuery, PagedList<LogEvent>>
+    : IQueryHandler<GetPagedLogEventsQuery, PagedList<LogEventDto>>
 {
     private readonly ILogEventRepository _logRepository;
     private readonly IEventCollectionRepository _collectionRepository;
@@ -20,17 +20,27 @@ internal sealed class GetPagedLogEventsQueryHandler
         _collectionRepository = collectionRepository;
         _logger = logger;
     }
-    public async Task<Result<PagedList<LogEvent>>> Handle(GetPagedLogEventsQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PagedList<LogEventDto>>> Handle(GetPagedLogEventsQuery request, CancellationToken cancellationToken)
     {
         var collection = await _collectionRepository.GetByNameAsync(request.CollectionName, cancellationToken);
         if(collection is null)
         {
             _logger.LogWarning("EventCollection with name: {name} was not found", request.CollectionName);
-            return Result.Failure<PagedList<LogEvent>>(
+            return Result.Failure<PagedList<LogEventDto>>(
                 EventCollectionErrors.NotFound(nameof(collection.Name), request.CollectionName));
         }
 
-        var eventList = await _logRepository.GetPagedByCollectionIdAsync(collection.Id, request.PageIndex, request.PageSize, cancellationToken);
-        return Result.Success(eventList);
+        var eventList = await _logRepository
+            .GetPagedByCollectionIdAsync(collection.Id, request.PageIndex, request.PageSize, cancellationToken);
+        var mappedList = eventList.Convert(log => new LogEventDto //TODO: use mapper
+        {
+            Id = log.Id,
+            Timestamp = log.Timestamp,
+            Args = log.Args,
+            CollectionName = collection.Name,
+            LogLevel = log.LogLevel,
+            Message = log.Message,
+        });
+        return Result.Success(mappedList);
     }
 }

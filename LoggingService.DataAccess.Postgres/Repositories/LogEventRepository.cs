@@ -18,4 +18,9 @@ internal sealed class LogEventRepository : BaseRepository<LogEvent>, ILogEventRe
 
         return await AsyncPagedList.CreateAsync(logs, pageIndex, pageSize, cancellationToken);
     }
+
+    public async Task InsertManyAsync(IEnumerable<LogEvent> entities, CancellationToken cancellationToken)
+    {
+        await Context.AddRangeAsync(entities, cancellationToken);
+    }
 }

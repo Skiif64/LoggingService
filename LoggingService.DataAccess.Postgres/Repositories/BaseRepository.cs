@@ -12,7 +12,7 @@ internal abstract class BaseRepository<TEntity> : ICrudRepository<TEntity>
         Context = context;
     }
 
-    public async Task CreateAsync(TEntity entity, CancellationToken cancellationToken = default)
+    public async Task InsertAsync(TEntity entity, CancellationToken cancellationToken = default)
     {
         await Context.Set<TEntity>().AddAsync(entity, cancellationToken);
     }

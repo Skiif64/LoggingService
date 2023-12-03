@@ -39,10 +39,11 @@ internal sealed class CreateLogEventCommandHandler
             _logger.LogWarning("EventCollection with name: {name} was not found", request.CollectionName);
             return Result.Failure(EventCollectionErrors.NotFound(nameof(collection.Name), request.CollectionName));
         }
-        var eventLog = new LogEvent(Guid.NewGuid(), DateTime.UtcNow, request.Timestamp,
-            request.CollectionId, request.Level, request.Message, request.Args);
+        //TODO: refactor log event
+        var eventLog = new LogEvent(Guid.NewGuid(), DateTime.UtcNow, request.Model.Timestamp,
+            collection.Id, request.Model.LogLevel, request.Model.Message, request.Model.Args);
 
-        await _logRepository.CreateAsync(eventLog, cancellationToken);
+        await _logRepository.InsertAsync(eventLog, cancellationToken);
         collection.Events.Add(eventLog);
         _eventCollectionRepository.Update(collection);
 

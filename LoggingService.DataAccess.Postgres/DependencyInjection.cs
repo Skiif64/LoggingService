@@ -24,6 +24,14 @@ public static class DependencyInjection
         services.AddScoped<ILogEventRepository, LogEventRepository>();
         services.AddScoped<IEventCollectionRepository, EventCollectionRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        var provider = services.BuildServiceProvider();
+        using(var scope = provider.CreateScope())
+        {
+            var context = provider.GetRequiredService<ApplicationDbContext>();
+            context.Database.EnsureCreated();
+        }
+
         return services;
     }
 }

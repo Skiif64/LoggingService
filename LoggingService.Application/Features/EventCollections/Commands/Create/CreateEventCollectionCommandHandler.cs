@@ -32,7 +32,7 @@ internal sealed class CreateEventCollectionCommandHandler
 
         var collection = new EventCollection(Guid.NewGuid(), DateTime.UtcNow, request.Name, request.ApplicationId);
 
-        await _collectionRepository.CreateAsync(collection, cancellationToken);
+        await _collectionRepository.InsertAsync(collection, cancellationToken);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         if(_unitOfWork.SaveChangesException is not null)

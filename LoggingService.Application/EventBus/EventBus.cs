@@ -2,7 +2,7 @@
 using MediatR;
 
 namespace LoggingService.Application.EventBus;
-public sealed class EventBus : IEventBus
+public sealed class EventBus : IEventBus //TODO: remove
 {
     private readonly IPublisher _publisher;
 
