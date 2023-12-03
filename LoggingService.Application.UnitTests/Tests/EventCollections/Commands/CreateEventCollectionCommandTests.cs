@@ -28,7 +28,7 @@ public class CreateEventCollectionCommandTests : TestBase
 
         result.IsSuccess.Should().BeTrue();
 
-        _collectionRepositoryMock.Verify(x => x.CreateAsync(It.IsAny<EventCollection>(), default), Times.Once);
+        _collectionRepositoryMock.Verify(x => x.InsertAsync(It.IsAny<EventCollection>(), default), Times.Once);
     }
 
     [Fact]
@@ -43,7 +43,7 @@ public class CreateEventCollectionCommandTests : TestBase
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(EventCollectionErrors.Duplicate(nameof(EventCollection.Name), command.Name));
 
-        _collectionRepositoryMock.Verify(x => x.CreateAsync(It.IsAny<EventCollection>(), default), Times.Never);
+        _collectionRepositoryMock.Verify(x => x.InsertAsync(It.IsAny<EventCollection>(), default), Times.Never);
     }
 
     [Fact]
