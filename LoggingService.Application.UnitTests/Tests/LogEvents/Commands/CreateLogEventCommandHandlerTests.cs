@@ -29,7 +29,6 @@ public class CreateLogEventCommandHandlerTests : TestBase
     {
         var command = Fixture.Create<CreateLogEventCommand>();
         var collection = Fixture.Build<EventCollection>()
-            .With(prop => prop.Events, new List<LogEvent>())
             .Create();
         _collectionRepositoryMock.Setup(x => x.GetByNameAsync(command.CollectionName, default))
             .ReturnsAsync(collection);
@@ -37,8 +36,6 @@ public class CreateLogEventCommandHandlerTests : TestBase
         var result = await _sut.Handle(command, CancellationToken);
 
         Assert.True(result.IsSuccess, $"Result is not success | error: {result.Error}");
-
-        collection.Events.Should().HaveCount(1);
     }
 
     [Fact]

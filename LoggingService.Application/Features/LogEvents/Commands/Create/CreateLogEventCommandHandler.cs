@@ -44,8 +44,6 @@ internal sealed class CreateLogEventCommandHandler
             collection.Id, request.Model.LogLevel, request.Model.Message, request.Model.Args);
 
         await _logRepository.InsertAsync(eventLog, cancellationToken);
-        collection.Events.Add(eventLog);
-        _eventCollectionRepository.Update(collection);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         if(_unitOfWork.SaveChangesException is not null)
