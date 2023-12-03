@@ -4,6 +4,6 @@ using LoggingService.Domain.Shared;
 
 namespace LoggingService.Application.Features.LogEvents.Queries.GetPaged;
 public sealed record GetPagedLogEventsQuery(string CollectionName, int PageIndex, int PageSize)
-    : IQuery<PagedList<LogEvent>>
+    : IQuery<PagedList<LogEventDto>>
 {
 }
