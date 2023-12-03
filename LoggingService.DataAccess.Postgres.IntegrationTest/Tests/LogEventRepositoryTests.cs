@@ -48,14 +48,26 @@ public class LogEventRepositoryTests : TestBase
     }
 
     [Fact]
-    public async Task CreateAsync_ShouldAddLogToDatabase()
+    public async Task InsertAsync_ShouldAddLogToDatabase()
     {
         var log = Fixture.Create<LogEvent>();
 
-        await _sut.CreateAsync(log, CancellationToken);
+        await _sut.InsertAsync(log, CancellationToken);
         await Context.SaveChangesAsync(CancellationToken);
 
-        var actualLog = await GetFromDbAsync<LogEvent>(actual => actual.Id == log.Id);
+        var actualLog = await GetFirstFromDbAsync<LogEvent>(actual => actual.Id == log.Id);
         actualLog.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task InsertManyAsync_ShouldAddLogsToDatabase()
+    {
+        var logs = Fixture.CreateMany<LogEvent>(20);
+
+        await _sut.InsertManyAsync(logs, CancellationToken);
+        await Context.SaveChangesAsync(CancellationToken);
+
+        var actualLogs = GetFromDb<LogEvent>(log => logs.Select(x => x.Id).Contains(log.Id));
+        actualLogs.Should().HaveCount(logs.Count());
     }
 }

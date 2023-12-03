@@ -39,12 +39,20 @@ public abstract class TestBase : IAsyncLifetime, IClassFixture<ApplicationFixtur
         await context.SaveChangesAsync();
     }
 
-    public async Task<TEntity?> GetFromDbAsync<TEntity>(Expression<Func<TEntity, bool>> predicate)
+    public async Task<TEntity?> GetFirstFromDbAsync<TEntity>(Expression<Func<TEntity, bool>> predicate)
         where TEntity : BaseEntity
     {
         await using var scope = Application.Provider.CreateAsyncScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         return await context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+    }
+
+    public IEnumerable<TEntity> GetFromDb<TEntity>(Expression<Func<TEntity, bool>> predicate)
+        where TEntity : BaseEntity
+    {
+        using var scope = Application.Provider.CreateScope();
+        var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+        return context.Set<TEntity>().Where(predicate).ToList();
     }
 
     public Task InitializeAsync() 
