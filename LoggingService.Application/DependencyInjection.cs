@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using LoggingService.Application.Base.Messaging;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace LoggingService.Application;
 public static class DependencyInjection
@@ -9,6 +10,7 @@ public static class DependencyInjection
         {
             cfg.RegisterServicesFromAssembly(typeof(DependencyInjection).Assembly);
         });
+        services.AddScoped<IEventBus, EventBus.EventBus>();
         return services;
     }
 }
