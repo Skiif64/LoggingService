@@ -1,14 +1,8 @@
 ﻿namespace LoggingService.Domain.Base;
 public abstract class BaseEntity : IEquatable<BaseEntity>
 {
-    public Guid Id { get; private set; }
-    public DateTime CreatedAtUtc { get; private set; }
-
-    public BaseEntity(Guid id, DateTime createdAtUtc)
-    {
-        Id = id;
-        CreatedAtUtc = createdAtUtc;
-    }
+    public Guid Id { get; set; }
+    public DateTime CreatedAtUtc { get; set; }
 
     public override bool Equals(object? obj)
     {
