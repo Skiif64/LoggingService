@@ -15,17 +15,20 @@ internal sealed class CreateLogEventBatchedCommandHandler
     private readonly IEventCollectionRepository _collectionRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IEventBus _bus;
+    private readonly ILogEventService _service;
     private readonly ILogger<CreateLogEventBatchedCommandHandler> _logger;
     public CreateLogEventBatchedCommandHandler(ILogEventRepository logRepository,
                                                IEventCollectionRepository collectionRepository,
                                                IUnitOfWork unitOfWork,
                                                IEventBus bus,
+                                               ILogEventService service,
                                                ILogger<CreateLogEventBatchedCommandHandler> logger)
     {
         _logRepository = logRepository;
         _collectionRepository = collectionRepository;
         _unitOfWork = unitOfWork;
         _bus = bus;
+        _service = service;
         _logger = logger;
     }
     public async Task<Result> Handle(CreateLogEventBatchedCommand request, CancellationToken cancellationToken)
@@ -36,16 +39,26 @@ internal sealed class CreateLogEventBatchedCommandHandler
             return Result.Failure(
                 EventCollectionErrors.NotFound(nameof(EventCollection.Name), request.CollectionName));
         }
-        var logs = request.Models.Select(log  => new LogEvent
+        var logs = new List<LogEvent>();
+        foreach(var logModel in request.Models)
         {
-            Id = Guid.NewGuid(),
-            CreatedAtUtc = DateTime.UtcNow,
-            Timestamp = log.Timestamp,
-            CollectionId = collection.Id,
-            LogLevel = log.LogLevel,
-            Message = log.Message,
-            Args = log.Args,
-        });
+            var validationResult = _service.Validate(logModel.Message, logModel.Args);
+            if(!validationResult.IsSuccess)
+            {
+                return validationResult;
+            }
+            var log = new LogEvent
+            {
+                Id = Guid.NewGuid(),
+                CreatedAtUtc = DateTime.UtcNow,
+                Timestamp = logModel.Timestamp,
+                CollectionId = collection.Id,
+                LogLevel = logModel.LogLevel,
+                Message = logModel.Message,
+                Args = logModel.Args,
+            };
+            logs.Add(log);
+        }
 
         await _logRepository.InsertManyAsync(logs, cancellationToken);
 

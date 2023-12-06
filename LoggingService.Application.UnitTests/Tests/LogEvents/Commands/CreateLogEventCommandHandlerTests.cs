@@ -3,6 +3,7 @@ using LoggingService.Application.Errors;
 using LoggingService.Application.Features.LogEvents.Commands.Create;
 using LoggingService.Domain.Features.EventCollections;
 using LoggingService.Domain.Features.LogEvents;
+using LoggingService.Domain.Shared;
 using Microsoft.Extensions.Logging;
 
 namespace LoggingService.Application.UnitTests.Tests.LogEvents.Commands;
@@ -10,6 +11,7 @@ public class CreateLogEventCommandHandlerTests : TestBase
 {
     private readonly Mock<ILogEventRepository> _logRepositoryMock;
     private readonly Mock<IEventCollectionRepository> _collectionRepositoryMock;
+    private readonly Mock<ILogEventService> _logEventServiceMock;
     
     private readonly ILogger<CreateLogEventCommandHandler> _logger;
     private readonly CreateLogEventCommandHandler _sut;
@@ -18,10 +20,11 @@ public class CreateLogEventCommandHandlerTests : TestBase
     {
         _logRepositoryMock = new Mock<ILogEventRepository>();
         _collectionRepositoryMock = new Mock<IEventCollectionRepository>();
+        _logEventServiceMock = new Mock<ILogEventService>();
         _logger = LoggerFactory.CreateLogger<CreateLogEventCommandHandler>();
         _sut = new CreateLogEventCommandHandler(
             _logRepositoryMock.Object, _collectionRepositoryMock.Object,
-            UnitOfWorkMock.Object, EventBusMock.Object, _logger);
+            UnitOfWorkMock.Object, EventBusMock.Object, _logEventServiceMock.Object, _logger);
     }
 
     [Fact]
@@ -32,6 +35,8 @@ public class CreateLogEventCommandHandlerTests : TestBase
             .Create();
         _collectionRepositoryMock.Setup(x => x.GetByNameAsync(command.CollectionName, default))
             .ReturnsAsync(collection);
+        _logEventServiceMock.Setup(x => x.Validate(command.Model.Message, command.Model.Args))
+            .Returns(Result.Success());
 
         var result = await _sut.Handle(command, CancellationToken);
 
@@ -46,6 +51,8 @@ public class CreateLogEventCommandHandlerTests : TestBase
         var command = Fixture.Create<CreateLogEventCommand>();
         _collectionRepositoryMock.Setup(x => x.GetByNameAsync(command.CollectionName, default))
             .ReturnsAsync(Fixture.Create<EventCollection>());
+        _logEventServiceMock.Setup(x => x.Validate(command.Model.Message, command.Model.Args))
+            .Returns(Result.Success());
 
         var result = await _sut.Handle(command, CancellationToken);
 
@@ -57,6 +64,8 @@ public class CreateLogEventCommandHandlerTests : TestBase
     public async Task Handle_ShouldReturnCollectionNotFoundError_WhenEventCollectionNotFound()
     {
         var command = Fixture.Create<CreateLogEventCommand>();
+        _logEventServiceMock.Setup(x => x.Validate(command.Model.Message, command.Model.Args))
+            .Returns(Result.Success());
 
         var result = await _sut.Handle(command, CancellationToken);
 
