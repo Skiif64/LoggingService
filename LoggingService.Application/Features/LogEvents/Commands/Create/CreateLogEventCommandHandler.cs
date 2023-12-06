@@ -40,8 +40,16 @@ internal sealed class CreateLogEventCommandHandler
             return Result.Failure(EventCollectionErrors.NotFound(nameof(collection.Name), request.CollectionName));
         }
         //TODO: refactor log event
-        var eventLog = new LogEvent(Guid.NewGuid(), DateTime.UtcNow, request.Model.Timestamp,
-            collection.Id, request.Model.LogLevel, request.Model.Message, request.Model.Args);
+        var eventLog = new LogEvent
+        {
+            Id = Guid.NewGuid(),
+            CreatedAtUtc = DateTime.UtcNow,
+            Timestamp = request.Model.Timestamp,
+            CollectionId = collection.Id,
+            LogLevel = request.Model.LogLevel,
+            Message = request.Model.Message,
+            Args = request.Model.Args
+        };
 
         await _logRepository.InsertAsync(eventLog, cancellationToken);
 
@@ -52,7 +60,7 @@ internal sealed class CreateLogEventCommandHandler
             return Result.Failure(ApplicationErrors.SaveChangesError);
         }
 
-        await _bus.PublishAsync(new LogEventCreatedEvent(eventLog), cancellationToken);
+        await _bus.PublishAsync(new LogEventCreatedEvent(new[] { eventLog }), cancellationToken);
 
         return Result.Success();
     }
