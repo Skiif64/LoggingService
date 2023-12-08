@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using AutoFixture;
 using AutoFixture.AutoMoq;
+using LoggingService.Application.UnitTests.Fixtures;
 
 namespace LoggingService.Application.UnitTests.TestBases;
 public abstract class TestBase
@@ -20,6 +21,8 @@ public abstract class TestBase
         CancellationToken = new CancellationToken();
         UnitOfWorkMock = new Mock<IUnitOfWork>();
         EventBusMock = new Mock<IEventBus>();
-        Fixture = new Fixture().Customize(new AutoMoqCustomization());
+        Fixture = new Fixture()
+            .Customize(new AutoMoqCustomization())
+            .Customize(new CreateLogEventDtoCustomization());
     }
 }
