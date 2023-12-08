@@ -25,8 +25,7 @@ public class CreateLogEventDtoCustomization : ICustomization
         var sb = new StringBuilder(fixture.Create<string>());
         foreach(var arg in args)
         {
-            var index = Random.Shared.Next(0, sb.Length);
-            sb.Insert(index, $"{{{arg.Key}}}");
+            sb.Insert(sb.Length, $" {{{arg.Key}}} ");
         }
 
         return sb.ToString();

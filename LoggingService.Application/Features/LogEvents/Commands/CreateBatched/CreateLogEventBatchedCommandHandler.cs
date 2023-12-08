@@ -38,7 +38,12 @@ internal sealed class CreateLogEventBatchedCommandHandler
         }
         var logs = new List<LogEvent>();
         foreach(var logModel in request.Models)
-        {            
+        {
+            var validationResult = LogEventValidation.Validate(logModel.Message, logModel.Args);
+            if (!validationResult.IsSuccess)
+            {
+                return validationResult;
+            }
             var log = new LogEvent
             {
                 Id = Guid.NewGuid(),

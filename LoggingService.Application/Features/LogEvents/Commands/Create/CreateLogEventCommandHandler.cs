@@ -31,6 +31,11 @@ internal sealed class CreateLogEventCommandHandler
 
     public async Task<Result> Handle(CreateLogEventCommand request, CancellationToken cancellationToken)
     {
+        var validationResult = LogEventValidation.Validate(request.Model.Message, request.Model.Args);
+        if(!validationResult.IsSuccess)
+        {
+            return validationResult;
+        }
         var collection = await _eventCollectionRepository.GetByNameAsync(request.CollectionName, cancellationToken);
         if(collection is null)
         {
