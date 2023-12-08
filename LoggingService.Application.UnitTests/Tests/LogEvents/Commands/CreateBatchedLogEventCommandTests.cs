@@ -11,7 +11,6 @@ public class CreateBatchedLogEventCommandTests : TestBase
 {
     private readonly Mock<ILogEventRepository> _logRepositoryMock;
     private readonly Mock<IEventCollectionRepository> _collectionRepositoryMock;
-    private readonly Mock<ILogEventService> _logEventServiceMock;
 
     private readonly ILogger<CreateLogEventBatchedCommandHandler> _logger;
     private readonly CreateLogEventBatchedCommandHandler _sut;
@@ -20,11 +19,10 @@ public class CreateBatchedLogEventCommandTests : TestBase
     {
         _logRepositoryMock = new Mock<ILogEventRepository>();
         _collectionRepositoryMock = new Mock<IEventCollectionRepository>();
-        _logEventServiceMock = new Mock<ILogEventService>();
         _logger = LoggerFactory.CreateLogger<CreateLogEventBatchedCommandHandler>();
         _sut = new CreateLogEventBatchedCommandHandler(
             _logRepositoryMock.Object, _collectionRepositoryMock.Object,
-            UnitOfWorkMock.Object, EventBusMock.Object, _logEventServiceMock.Object, _logger);
+            UnitOfWorkMock.Object, EventBusMock.Object, _logger);
     }
 
     [Fact]
@@ -36,8 +34,6 @@ public class CreateBatchedLogEventCommandTests : TestBase
             .Create();
         _collectionRepositoryMock.Setup(x => x.GetByNameAsync(command.CollectionName, CancellationToken))
             .ReturnsAsync(collection);
-        _logEventServiceMock.Setup(x => x.Validate(It.IsAny<string>(), It.IsAny<Dictionary<string, string>>()))
-            .Returns(Result.Success());
 
         var result = await _sut.Handle(command, CancellationToken);
 
@@ -48,8 +44,6 @@ public class CreateBatchedLogEventCommandTests : TestBase
     public async Task Handle_ShouldReturnNotFoundError_WhenCollectionDoesNotExists()
     {
         var command = Fixture.Create<CreateLogEventBatchedCommand>();
-        _logEventServiceMock.Setup(x => x.Validate(It.IsAny<string>(), It.IsAny<Dictionary<string, string>>()))
-            .Returns(Result.Success());
 
         var result = await _sut.Handle(command, CancellationToken);
 
@@ -68,8 +62,6 @@ public class CreateBatchedLogEventCommandTests : TestBase
             .ReturnsAsync(collection);
         UnitOfWorkMock.SetupGet(prop => prop.SaveChangesException)
             .Returns(new Exception());
-        _logEventServiceMock.Setup(x => x.Validate(It.IsAny<string>(), It.IsAny<Dictionary<string, string>>()))
-            .Returns(Result.Success());
 
         var result = await _sut.Handle(command, CancellationToken);
 

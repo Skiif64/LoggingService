@@ -14,32 +14,23 @@ internal sealed class CreateLogEventCommandHandler
     private readonly IEventCollectionRepository _eventCollectionRepository;
     private readonly IUnitOfWork _unitOfWork;
     private readonly IEventBus _bus;
-    private readonly ILogEventService _service;
     private readonly ILogger<CreateLogEventCommandHandler> _logger;
 
     public CreateLogEventCommandHandler(ILogEventRepository logRepository,
                                         IEventCollectionRepository eventCollectionRepository,
                                         IUnitOfWork unitOfWork,
                                         IEventBus bus,
-                                        ILogEventService service,
                                         ILogger<CreateLogEventCommandHandler> logger)
     {
         _logRepository = logRepository;
         _eventCollectionRepository = eventCollectionRepository;
         _unitOfWork = unitOfWork;
         _bus = bus;
-        _service = service;
         _logger = logger;
     }
 
     public async Task<Result> Handle(CreateLogEventCommand request, CancellationToken cancellationToken)
     {
-        var validationResult = _service.Validate(request.Model.Message, request.Model.Args);
-        if(!validationResult.IsSuccess)
-        {
-            return validationResult;
-        }
-
         var collection = await _eventCollectionRepository.GetByNameAsync(request.CollectionName, cancellationToken);
         if(collection is null)
         {
