@@ -1,14 +1,8 @@
 ﻿using LoggingService.Domain.Base;
-using LoggingService.Domain.Features.LogEvents;
 
 namespace LoggingService.Domain.Features.EventCollections;
-public class EventCollection : BaseEntity
+public class EventCollection : BaseEntity //TODO: private setters, ctor
 {
-    public string Name { get; set; }
-    public IList<LogEvent> Events { get; set; } = new List<LogEvent>();
-    public EventCollection(Guid id, DateTime createdAtUtc, string name) 
-        : base(id, createdAtUtc)
-    {
-        Name = name;
-    }
+    public string Name { get; set; } = null!;
+    public Guid? ApplicationId { get; set; }
 }

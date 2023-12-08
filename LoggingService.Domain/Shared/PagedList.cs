@@ -10,7 +10,7 @@ public class PagedList<TItem>
     public bool HasNextPage { get; }
     public bool HasPrevPage { get; }
 
-    private PagedList(IReadOnlyCollection<TItem> items,
+    protected PagedList(IReadOnlyCollection<TItem> items,
                       int pageIndex,
                       int pageSize,
                       int totalPages,
@@ -22,8 +22,8 @@ public class PagedList<TItem>
         PageSize = pageSize;
         TotalPages = totalPages;
         TotalCount = totalCount;
-        HasNextPage = pageIndex < totalPages;
-        HasPrevPage = pageIndex != 0;
+        HasNextPage = PageIndex < TotalPages - 1;
+        HasPrevPage = PageIndex != 0;
     }
 
     public static PagedList<TItem> Create(IQueryable<TItem> queryable, int pageIndex, int pageSize)
@@ -33,7 +33,8 @@ public class PagedList<TItem>
         var items = queryable
             .Skip(pageSize * pageIndex)
             .Take(pageSize)
-            .ToList();
+            .ToList()
+            .AsReadOnly();
 
         return new PagedList<TItem>(items, pageIndex, pageSize, totalPages, totalCount);
     }
@@ -46,6 +47,14 @@ public class PagedList<TItem>
         }
 
         return new PagedList<TTo>(enumerable.ToList(), PageIndex, PageSize, TotalPages, TotalCount);
+    }
+
+    public PagedList<TTo> Convert<TTo>(Func<TItem, TTo> converter)
+    {
+        var mapped = Items.Select(item => converter(item))
+            .ToList()
+            .AsReadOnly();
+        return new PagedList<TTo>(mapped, PageIndex, PageSize, TotalPages, TotalCount);
     }
 }
 

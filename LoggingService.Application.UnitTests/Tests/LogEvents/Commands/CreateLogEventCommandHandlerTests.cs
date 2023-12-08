@@ -3,6 +3,7 @@ using LoggingService.Application.Errors;
 using LoggingService.Application.Features.LogEvents.Commands.Create;
 using LoggingService.Domain.Features.EventCollections;
 using LoggingService.Domain.Features.LogEvents;
+using LoggingService.Domain.Shared;
 using Microsoft.Extensions.Logging;
 
 namespace LoggingService.Application.UnitTests.Tests.LogEvents.Commands;
@@ -28,8 +29,10 @@ public class CreateLogEventCommandHandlerTests : TestBase
     public async Task Handle_ShouldReturnSuccessResult_WhenDataIsValid()
     {
         var command = Fixture.Create<CreateLogEventCommand>();
+        var collection = Fixture.Build<EventCollection>()
+            .Create();
         _collectionRepositoryMock.Setup(x => x.GetByNameAsync(command.CollectionName, default))
-            .ReturnsAsync(Fixture.Create<EventCollection>());
+            .ReturnsAsync(collection);
 
         var result = await _sut.Handle(command, CancellationToken);
 
@@ -60,5 +63,16 @@ public class CreateLogEventCommandHandlerTests : TestBase
 
         Assert.False(result.IsSuccess);
         Assert.Equal(EventCollectionErrors.NotFound(nameof(EventCollection.Name), command.CollectionName), result.Error);
+    }
+
+    [Fact]
+    public async Task Handle_ShouldReturnParseError_WhenMessageDoesNotMatchToArgs()
+    {
+        var command = Fixture.Create<CreateLogEventCommand>();
+        command.Model.Args.Add("NewArg", "arg");
+        var result = await _sut.Handle(command, CancellationToken);
+
+        result.IsSuccess.Should().BeFalse();
+        result.Error.Should().Be(LogEventsErrors.ParseError);
     }
 }

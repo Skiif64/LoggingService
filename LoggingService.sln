@@ -13,7 +13,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.Domain", "Lo
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.Application", "LoggingService.Application\LoggingService.Application.csproj", "{7C4CE941-68F3-44D3-B178-3C9F41BD683D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingService.Application.UnitTests", "LoggingService.Application.UnitTests\LoggingService.Application.UnitTests.csproj", "{0B996687-100E-4966-84D8-C28A23D85F19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.Application.UnitTests", "LoggingService.Application.UnitTests\LoggingService.Application.UnitTests.csproj", "{0B996687-100E-4966-84D8-C28A23D85F19}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.DataAccess.Postgres", "LoggingService.DataAccess.Postgres\LoggingService.DataAccess.Postgres.csproj", "{B454AF79-2ABD-4A2A-A6A8-4EAF09960225}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.DataAccess.Postgres.IntegrationTest", "LoggingService.DataAccess.Postgres.IntegrationTest\LoggingService.DataAccess.Postgres.IntegrationTest.csproj", "{BEDD51E6-A3DD-4FFC-8C74-C232412F32AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingService.WebApi", "LoggingService.WebApi\LoggingService.WebApi.csproj", "{E5B0E33A-16EB-4DED-9AA4-77D6E27CEB7A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +39,18 @@ Global
 		{0B996687-100E-4966-84D8-C28A23D85F19}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B996687-100E-4966-84D8-C28A23D85F19}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B996687-100E-4966-84D8-C28A23D85F19}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B454AF79-2ABD-4A2A-A6A8-4EAF09960225}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B454AF79-2ABD-4A2A-A6A8-4EAF09960225}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B454AF79-2ABD-4A2A-A6A8-4EAF09960225}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B454AF79-2ABD-4A2A-A6A8-4EAF09960225}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEDD51E6-A3DD-4FFC-8C74-C232412F32AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEDD51E6-A3DD-4FFC-8C74-C232412F32AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEDD51E6-A3DD-4FFC-8C74-C232412F32AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEDD51E6-A3DD-4FFC-8C74-C232412F32AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E5B0E33A-16EB-4DED-9AA4-77D6E27CEB7A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E5B0E33A-16EB-4DED-9AA4-77D6E27CEB7A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E5B0E33A-16EB-4DED-9AA4-77D6E27CEB7A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E5B0E33A-16EB-4DED-9AA4-77D6E27CEB7A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -41,6 +59,9 @@ Global
 		{DB34EE5B-F7E3-4FDD-8B09-CA6F10C8F42B} = {59621DB5-B344-404B-98EF-BB18D2472A86}
 		{7C4CE941-68F3-44D3-B178-3C9F41BD683D} = {59621DB5-B344-404B-98EF-BB18D2472A86}
 		{0B996687-100E-4966-84D8-C28A23D85F19} = {5CD3F789-80B1-4A15-98D0-EB12ACFD4E42}
+		{B454AF79-2ABD-4A2A-A6A8-4EAF09960225} = {59621DB5-B344-404B-98EF-BB18D2472A86}
+		{BEDD51E6-A3DD-4FFC-8C74-C232412F32AB} = {5CD3F789-80B1-4A15-98D0-EB12ACFD4E42}
+		{E5B0E33A-16EB-4DED-9AA4-77D6E27CEB7A} = {59621DB5-B344-404B-98EF-BB18D2472A86}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD314370-0121-400B-838B-3283FE6324D2}

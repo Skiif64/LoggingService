@@ -31,20 +31,30 @@ internal sealed class CreateLogEventCommandHandler
 
     public async Task<Result> Handle(CreateLogEventCommand request, CancellationToken cancellationToken)
     {
-        //TODO: validate message template count and args count & names
-
+        var validationResult = LogEventValidation.Validate(request.Model.Message, request.Model.Args);
+        if(!validationResult.IsSuccess)
+        {
+            return validationResult;
+        }
         var collection = await _eventCollectionRepository.GetByNameAsync(request.CollectionName, cancellationToken);
         if(collection is null)
         {
             _logger.LogWarning("EventCollection with name: {name} was not found", request.CollectionName);
             return Result.Failure(EventCollectionErrors.NotFound(nameof(collection.Name), request.CollectionName));
         }
-        var eventLog = new LogEvent(Guid.NewGuid(), DateTime.UtcNow, request.Timestamp,
-            request.CollectionId, request.Level, request.Message, request.Args);
+        //TODO: refactor log event
+        var eventLog = new LogEvent
+        {
+            Id = Guid.NewGuid(),
+            CreatedAtUtc = DateTime.UtcNow,
+            Timestamp = request.Model.Timestamp,
+            CollectionId = collection.Id,
+            LogLevel = request.Model.LogLevel,
+            Message = request.Model.Message,
+            Args = request.Model.Args
+        };
 
-        await _logRepository.CreateAsync(eventLog, cancellationToken);
-        collection.Events.Add(eventLog);
-        _eventCollectionRepository.Update(collection);
+        await _logRepository.InsertAsync(eventLog, cancellationToken);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
         if(_unitOfWork.SaveChangesException is not null)
@@ -53,7 +63,7 @@ internal sealed class CreateLogEventCommandHandler
             return Result.Failure(ApplicationErrors.SaveChangesError);
         }
 
-        await _bus.PublishAsync(new LogEventCreatedEvent(eventLog), cancellationToken);
+        await _bus.PublishAsync(new LogEventCreatedEvent(new[] { eventLog }), cancellationToken);
 
         return Result.Success();
     }

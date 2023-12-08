@@ -5,7 +5,7 @@ using Microsoft.Extensions.Logging;
 
 namespace LoggingService.Application.Features.EventCollections.Commands.Queries;
 internal sealed class GetPagedEventCollectionQueryHandler
-    : IQueryHandler<GetPagedEventCollectionQuery, PagedList<EventCollection>>
+    : IQueryHandler<GetPagedEventCollectionQuery, PagedList<EventCollectionDto>>
 {
     private readonly IEventCollectionRepository _collectionRepository;
     private readonly ILogger<GetPagedEventCollectionQueryHandler> _logger;
@@ -14,10 +14,14 @@ internal sealed class GetPagedEventCollectionQueryHandler
         _collectionRepository = collectionRepository;
         _logger = logger;
     }
-    public async Task<Result<PagedList<EventCollection>>> Handle(GetPagedEventCollectionQuery request, CancellationToken cancellationToken)
+    public async Task<Result<PagedList<EventCollectionDto>>> Handle(GetPagedEventCollectionQuery request, CancellationToken cancellationToken)
     {
         var collections = await _collectionRepository.GetPagedAsync(request.PageIndex, request.PageSize, cancellationToken);
-
-        return Result.Success(collections);
+        var mappedCollections = collections.Convert(collection => new EventCollectionDto
+        {
+            Id = collection.Id,
+            Name = collection.Name,
+        });
+        return Result.Success(mappedCollections);
     }
 }
