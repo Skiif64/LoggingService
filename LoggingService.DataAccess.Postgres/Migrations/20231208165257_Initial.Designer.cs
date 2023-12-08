@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LoggingService.DataAccess.Postgres.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231203191755_Initial")]
+    [Migration("20231208165257_Initial")]
     partial class Initial
     {
         /// <inheritdoc />
@@ -81,6 +81,17 @@ namespace LoggingService.DataAccess.Postgres.Migrations
                     b.HasIndex("CollectionId");
 
                     b.ToTable("LogEvents");
+                });
+
+            modelBuilder.Entity("LoggingService.Domain.Features.LogEvents.LogEvent", b =>
+                {
+                    b.HasOne("LoggingService.Domain.Features.EventCollections.EventCollection", "Collection")
+                        .WithMany()
+                        .HasForeignKey("CollectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Collection");
                 });
 #pragma warning restore 612, 618
         }

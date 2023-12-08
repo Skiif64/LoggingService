@@ -29,7 +29,10 @@ public static class DependencyInjection
         using(var scope = provider.CreateScope())
         {
             var context = provider.GetRequiredService<ApplicationDbContext>();
-            context.Database.EnsureCreated();
+            if(context.Database.GetPendingMigrations().Any())
+            {
+                context.Database.Migrate();
+            }
         }
 
         return services;

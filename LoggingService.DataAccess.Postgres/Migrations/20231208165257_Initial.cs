@@ -44,6 +44,12 @@ namespace LoggingService.DataAccess.Postgres.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_LogEvents", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_LogEvents_EventCollections_CollectionId",
+                        column: x => x.CollectionId,
+                        principalTable: "EventCollections",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -61,10 +67,10 @@ namespace LoggingService.DataAccess.Postgres.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EventCollections");
+                name: "LogEvents");
 
             migrationBuilder.DropTable(
-                name: "LogEvents");
+                name: "EventCollections");
         }
     }
 }

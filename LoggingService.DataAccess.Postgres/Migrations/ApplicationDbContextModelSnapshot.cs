@@ -79,6 +79,17 @@ namespace LoggingService.DataAccess.Postgres.Migrations
 
                     b.ToTable("LogEvents");
                 });
+
+            modelBuilder.Entity("LoggingService.Domain.Features.LogEvents.LogEvent", b =>
+                {
+                    b.HasOne("LoggingService.Domain.Features.EventCollections.EventCollection", "Collection")
+                        .WithMany()
+                        .HasForeignKey("CollectionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Collection");
+                });
 #pragma warning restore 612, 618
         }
     }
