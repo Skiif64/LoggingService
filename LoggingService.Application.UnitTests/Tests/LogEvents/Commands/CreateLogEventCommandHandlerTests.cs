@@ -64,4 +64,15 @@ public class CreateLogEventCommandHandlerTests : TestBase
         Assert.False(result.IsSuccess);
         Assert.Equal(EventCollectionErrors.NotFound(nameof(EventCollection.Name), command.CollectionName), result.Error);
     }
+
+    [Fact]
+    public async Task Handle_ShouldReturnParseError_WhenMessageDoesNotMatchToArgs()
+    {
+        var command = Fixture.Create<CreateLogEventCommand>();
+        command.Model.Args.Add("NewArg", "arg");
+        var result = await _sut.Handle(command, CancellationToken);
+
+        result.IsSuccess.Should().BeFalse();
+        result.Error.Should().Be(LogEventsErrors.ParseError);
+    }
 }

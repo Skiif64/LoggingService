@@ -1,5 +1,6 @@
 ﻿using AutoFixture;
 using LoggingService.Application.Errors;
+using LoggingService.Application.Features.LogEvents.Commands.Create;
 using LoggingService.Application.Features.LogEvents.Commands.CreateBatched;
 using LoggingService.Domain.Features.EventCollections;
 using LoggingService.Domain.Features.LogEvents;
@@ -67,5 +68,22 @@ public class CreateBatchedLogEventCommandTests : TestBase
 
         result.IsSuccess.Should().BeFalse();
         result.Error.Should().Be(ApplicationErrors.SaveChangesError);
+    }
+
+    [Fact]
+    public async Task Handle_ShouldReturnParseError_WhenMessageDoesNotMatchToArgs()
+    {
+        var command = Fixture.Create<CreateLogEventBatchedCommand>();
+        command.Models.First().Args.Add("NewArg", "arg");
+        var collection = Fixture.Build<EventCollection>()
+            .With(prop => prop.Name, command.CollectionName)
+            .Create();
+        _collectionRepositoryMock.Setup(x => x.GetByNameAsync(command.CollectionName, CancellationToken))
+           .ReturnsAsync(collection);
+
+        var result = await _sut.Handle(command, CancellationToken);
+
+        result.IsSuccess.Should().BeFalse();
+        result.Error.Should().Be(LogEventsErrors.ParseError);
     }
 }
