@@ -1,5 +1,6 @@
 using LoggingService.Application;
 using LoggingService.DataAccess.Postgres;
+using LoggingService.WebApi.Hubs;
 using Mapster;
 using MapsterMapper;
 using Microsoft.AspNetCore.HttpLogging;
@@ -19,6 +20,8 @@ mapsterConfig.Scan(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddSingleton(mapsterConfig);
 builder.Services.AddScoped<IMapper, ServiceMapper>();
 
+builder.Services.AddSignalR();
+
 var app = builder.Build();
 app.UseHttpLogging();
 app.UseCors(cfg =>
@@ -28,5 +31,6 @@ app.UseCors(cfg =>
     cfg.AllowAnyMethod();
 });
 app.MapControllers();
+app.MapHub<NotificationHub>("hub/notification/connect");
 
 app.Run();
