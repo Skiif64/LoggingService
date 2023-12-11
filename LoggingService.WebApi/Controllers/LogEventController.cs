@@ -2,7 +2,9 @@
 using LoggingService.Application.Features.LogEvents.Commands.Create;
 using LoggingService.Application.Features.LogEvents.Commands.CreateBatched;
 using LoggingService.Application.Features.LogEvents.Queries.GetPaged;
-using LoggingService.WebApi.Contracts;
+using LoggingService.WebApi.Contracts.Common;
+using LoggingService.WebApi.Contracts.Models;
+using MapsterMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,17 +15,18 @@ namespace LoggingService.WebApi.Controllers;
 public sealed class LogEventController : ControllerBase
 {
     private readonly ISender _sender;
+    private readonly IMapper _mapper;
 
-    public LogEventController(ISender sender)
+    public LogEventController(ISender sender, IMapper mapper)
     {
         _sender = sender;
+        _mapper = mapper;
     }
 
     [HttpPost("{collectionName}")]
     public async Task<IActionResult> InsertAsync(string collectionName, CreateLogEventViewModel model, CancellationToken cancellationToken)
     {
-        var command = new CreateLogEventCommand(collectionName,
-            new CreateLogEventDto(model.LogLevel, model.Timestamp, model.Message, model.Args)); //TODO: use viewmodel
+        var command = new CreateLogEventCommand(collectionName, _mapper.Map<CreateLogEventDto>(model));
         var result = await _sender.Send(command, cancellationToken);
         if (result.IsSuccess)
         {
@@ -36,9 +39,10 @@ public sealed class LogEventController : ControllerBase
     }
 
     [HttpPost("{collectionName}/batched")]
-    public async Task<IActionResult> InsertBatchedAsync(string collectionName, IEnumerable<CreateLogEventDto> models, CancellationToken cancellationToken)
+    public async Task<IActionResult> InsertBatchedAsync(string collectionName, IEnumerable<CreateLogEventViewModel> models, CancellationToken cancellationToken)
     {
-        var command = new CreateLogEventBatchedCommand(collectionName, models);
+        var command = new CreateLogEventBatchedCommand(collectionName,
+            _mapper.Map<IEnumerable<CreateLogEventDto>>(models));
         var result = await _sender.Send(command, cancellationToken);
         if (result.IsSuccess)
         {
@@ -59,7 +63,8 @@ public sealed class LogEventController : ControllerBase
         var result = await _sender.Send(query, cancellationToken);
         if (result.IsSuccess)
         {
-            return Ok(result.Value); //TODO: map
+            var mapped = _mapper.Map<PagedListViewModel<LogEventViewModel>>(result.Value!);
+            return Ok(mapped);
         }
         else
         {
