@@ -21,6 +21,10 @@ builder.Services.AddSingleton(mapsterConfig);
 builder.Services.AddScoped<IMapper, ServiceMapper>();
 
 builder.Services.AddSignalR();
+builder.Services.AddMediatR(cfg =>
+{
+    cfg.RegisterServicesFromAssemblyContaining<Program>();
+});
 
 var app = builder.Build();
 app.UseHttpLogging();

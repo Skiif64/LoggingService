@@ -1,5 +1,4 @@
 ﻿using LoggingService.WebApi.Contracts.Hubs;
-using LoggingService.WebApi.Contracts.Models;
 using Microsoft.AspNetCore.SignalR;
 
 namespace LoggingService.WebApi.Hubs;
@@ -23,11 +22,5 @@ public class NotificationHub : Hub<INotificationHubClient>
     {
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, collectionName, cancellationToken);
         _logger.LogInformation("Connection {id} has stopped listening {name}", Context.ConnectionId, collectionName);
-    }
-
-    public async Task NotifyEventLogsAdd(string collectionName, IEnumerable<LogEventViewModel> logs)
-    {
-        await Clients.Group(collectionName).SendLogEvents(logs);
-        _logger.LogInformation("Send {count} of log events to {collection}", logs.Count(), collectionName);
     }
 }
