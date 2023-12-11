@@ -1,4 +1,4 @@
-﻿namespace LoggingService.WebApi.Contracts;
+﻿namespace LoggingService.WebApi.Contracts.Models;
 
 public sealed class CreateEventCollectionViewModel
 {

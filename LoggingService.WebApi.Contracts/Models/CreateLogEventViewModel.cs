@@ -1,11 +1,9 @@
-﻿using LoggingService.Domain.Features.LogEvents;
-
-namespace LoggingService.WebApi.Contracts;
+﻿namespace LoggingService.WebApi.Contracts.Models;
 
 public sealed class CreateLogEventViewModel
 {
     public required DateTime Timestamp { get; init; }
-    public required LogEventLevel LogLevel { get; init; } //TODO: use viewmodel enum
+    public required LogEventLevelViewModel LogLevel { get; init; }
     public required string Message { get; init; }
     public required Dictionary<string, string> Args { get; init; }
 }
