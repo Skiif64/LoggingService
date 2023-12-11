@@ -21,7 +21,7 @@ builder.Services.AddSingleton(mapsterConfig);
 builder.Services.AddScoped<IMapper, ServiceMapper>();
 
 builder.Services.AddSignalR();
-builder.Services.AddMediatR(cfg =>
+builder.Services.AddMediatR(cfg => //TODO: add only notificationHandlers
 {
     cfg.RegisterServicesFromAssemblyContaining<Program>();
 });
