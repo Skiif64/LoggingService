@@ -4,6 +4,8 @@ using LoggingService.WebApi.Hubs;
 using Mapster;
 using MapsterMapper;
 using Microsoft.AspNetCore.HttpLogging;
+using LoggingService.Endpoints.Application;
+using LoggingService.Endpoints.Frontend;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpLogging(cfg =>
@@ -35,6 +37,8 @@ app.UseCors(cfg =>
     cfg.AllowAnyMethod();
 });
 app.MapControllers();
+app.UseApplicationEndpoints();
+app.UseFrontendEndpoints();
 app.MapHub<NotificationHub>("hub/notification");
 
 app.Run();
