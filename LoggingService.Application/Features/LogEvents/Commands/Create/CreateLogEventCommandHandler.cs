@@ -63,7 +63,7 @@ internal sealed class CreateLogEventCommandHandler
             return Result.Failure(ApplicationErrors.SaveChangesError);
         }
 
-        await _bus.PublishAsync(new LogEventCreatedEvent(new[] { eventLog }), cancellationToken);
+        await _bus.PublishAsync(new LogEventCreatedEvent(collection.Name, new[] { eventLog }), cancellationToken);
 
         return Result.Success();
     }
