@@ -20,8 +20,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LoggingService.Application\LoggingService.Application.csproj" />
-    <ProjectReference Include="..\LoggingService.DataAccess.Postgres\LoggingService.DataAccess.Postgres.csproj" />
+    <ProjectReference Include="..\Core\LoggingService.Application\LoggingService.Application.csproj" />
+    <ProjectReference Include="..\Ports\LoggingService.DataAccess.Ef\LoggingService.DataAccess.Ef.csproj" />
     <ProjectReference Include="..\LoggingService.WebApi.Contracts\LoggingService.WebApi.Contracts.csproj" />
   </ItemGroup>
 

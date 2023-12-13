@@ -9,19 +9,23 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{59621DB5-B34
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{5CD3F789-80B1-4A15-98D0-EB12ACFD4E42}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.Domain", "LoggingService.Domain\LoggingService.Domain.csproj", "{DB34EE5B-F7E3-4FDD-8B09-CA6F10C8F42B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.Domain", "Src\Core\LoggingService.Domain\LoggingService.Domain.csproj", "{DB34EE5B-F7E3-4FDD-8B09-CA6F10C8F42B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.Application", "LoggingService.Application\LoggingService.Application.csproj", "{7C4CE941-68F3-44D3-B178-3C9F41BD683D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.Application", "Src\Core\LoggingService.Application\LoggingService.Application.csproj", "{7C4CE941-68F3-44D3-B178-3C9F41BD683D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.Application.UnitTests", "LoggingService.Application.UnitTests\LoggingService.Application.UnitTests.csproj", "{0B996687-100E-4966-84D8-C28A23D85F19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.Application.UnitTests", "Test\LoggingService.Application.UnitTests\LoggingService.Application.UnitTests.csproj", "{0B996687-100E-4966-84D8-C28A23D85F19}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.DataAccess.Postgres", "LoggingService.DataAccess.Postgres\LoggingService.DataAccess.Postgres.csproj", "{B454AF79-2ABD-4A2A-A6A8-4EAF09960225}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.DataAccess.Ef", "Src\Ports\LoggingService.DataAccess.Ef\LoggingService.DataAccess.Ef.csproj", "{B454AF79-2ABD-4A2A-A6A8-4EAF09960225}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.DataAccess.Postgres.IntegrationTest", "LoggingService.DataAccess.Postgres.IntegrationTest\LoggingService.DataAccess.Postgres.IntegrationTest.csproj", "{BEDD51E6-A3DD-4FFC-8C74-C232412F32AB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.DataAccess.Ef.IntegrationTest", "Test\LoggingService.DataAccess.Ef.IntegrationTest\LoggingService.DataAccess.Ef.IntegrationTest.csproj", "{BEDD51E6-A3DD-4FFC-8C74-C232412F32AB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.WebApi", "LoggingService.WebApi\LoggingService.WebApi.csproj", "{E5B0E33A-16EB-4DED-9AA4-77D6E27CEB7A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.WebApi", "Src\LoggingService.WebApi\LoggingService.WebApi.csproj", "{E5B0E33A-16EB-4DED-9AA4-77D6E27CEB7A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingService.WebApi.Contracts", "LoggingService.WebApi.Contracts\LoggingService.WebApi.Contracts.csproj", "{BD763BD5-7C3F-42D6-84C8-36DCD6CC277D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.WebApi.Contracts", "Src\LoggingService.WebApi.Contracts\LoggingService.WebApi.Contracts.csproj", "{BD763BD5-7C3F-42D6-84C8-36DCD6CC277D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{1A68D36A-BA33-42FC-89FF-3906F80E7E38}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Ports", "Ports", "{61A919B9-1C90-43D5-B6F9-767E2256B640}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -62,13 +66,15 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{DB34EE5B-F7E3-4FDD-8B09-CA6F10C8F42B} = {59621DB5-B344-404B-98EF-BB18D2472A86}
-		{7C4CE941-68F3-44D3-B178-3C9F41BD683D} = {59621DB5-B344-404B-98EF-BB18D2472A86}
+		{DB34EE5B-F7E3-4FDD-8B09-CA6F10C8F42B} = {1A68D36A-BA33-42FC-89FF-3906F80E7E38}
+		{7C4CE941-68F3-44D3-B178-3C9F41BD683D} = {1A68D36A-BA33-42FC-89FF-3906F80E7E38}
 		{0B996687-100E-4966-84D8-C28A23D85F19} = {5CD3F789-80B1-4A15-98D0-EB12ACFD4E42}
 		{B454AF79-2ABD-4A2A-A6A8-4EAF09960225} = {59621DB5-B344-404B-98EF-BB18D2472A86}
 		{BEDD51E6-A3DD-4FFC-8C74-C232412F32AB} = {5CD3F789-80B1-4A15-98D0-EB12ACFD4E42}
 		{E5B0E33A-16EB-4DED-9AA4-77D6E27CEB7A} = {59621DB5-B344-404B-98EF-BB18D2472A86}
 		{BD763BD5-7C3F-42D6-84C8-36DCD6CC277D} = {59621DB5-B344-404B-98EF-BB18D2472A86}
+		{1A68D36A-BA33-42FC-89FF-3906F80E7E38} = {59621DB5-B344-404B-98EF-BB18D2472A86}
+		{61A919B9-1C90-43D5-B6F9-767E2256B640} = {59621DB5-B344-404B-98EF-BB18D2472A86}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD314370-0121-400B-838B-3283FE6324D2}

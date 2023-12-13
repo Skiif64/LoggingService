@@ -35,7 +35,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LoggingService.DataAccess.Postgres\LoggingService.DataAccess.Postgres.csproj" />
+    <ProjectReference Include="..\..\Src\Ports\LoggingService.DataAccess.Ef\LoggingService.DataAccess.Ef.csproj" />
   </ItemGroup>
 
 </Project>

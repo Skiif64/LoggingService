@@ -7,10 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\LoggingService.Application\LoggingService.Application.csproj" />
+    <ProjectReference Include="..\..\Core\LoggingService.Application\LoggingService.Application.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <InternalsVisibleTo Include="LoggingService.DataAccess.Postgres.IntegrationTest" />
+    <InternalsVisibleTo Include="LoggingService.DataAccess.Ef.IntegrationTest" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="7.0.11">
