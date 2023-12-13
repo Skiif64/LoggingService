@@ -30,12 +30,7 @@ internal sealed class CreateLogEventCommandHandler
     }
 
     public async Task<Result> Handle(CreateLogEventCommand request, CancellationToken cancellationToken)
-    {
-        var validationResult = LogEventValidation.Validate(request.Model.Message, request.Model.Args);
-        if(!validationResult.IsSuccess)
-        {
-            return validationResult;
-        }
+    {        
         var collection = await _eventCollectionRepository.GetByNameAsync(request.CollectionName, cancellationToken);
         if(collection is null)
         {
@@ -43,16 +38,13 @@ internal sealed class CreateLogEventCommandHandler
             return Result.Failure(EventCollectionErrors.NotFound(nameof(collection.Name), request.CollectionName));
         }
         //TODO: refactor log event
-        var eventLog = new LogEvent
+        var createResult = LogEvent.Create(
+            request.Model.Timestamp, collection.Id, request.Model.LogLevel, request.Model.Message, request.Model.Args);
+        if(!createResult.IsSuccess)
         {
-            Id = Guid.NewGuid(),
-            CreatedAtUtc = DateTime.UtcNow,
-            Timestamp = request.Model.Timestamp,
-            CollectionId = collection.Id,
-            LogLevel = request.Model.LogLevel,
-            Message = request.Model.Message,
-            Args = request.Model.Args
-        };
+            return createResult;
+        }
+        var eventLog = createResult.Value!;
 
         await _logRepository.InsertAsync(eventLog, cancellationToken);
 

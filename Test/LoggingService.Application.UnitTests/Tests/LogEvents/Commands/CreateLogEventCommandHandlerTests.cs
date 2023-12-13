@@ -70,6 +70,9 @@ public class CreateLogEventCommandHandlerTests : TestBase
     {
         var command = Fixture.Create<CreateLogEventCommand>();
         command.Model.Args.Add("NewArg", "arg");
+        _collectionRepositoryMock.Setup(x => x.GetByNameAsync(command.CollectionName, default))
+           .ReturnsAsync(Fixture.Create<EventCollection>());
+
         var result = await _sut.Handle(command, CancellationToken);
 
         result.IsSuccess.Should().BeFalse();

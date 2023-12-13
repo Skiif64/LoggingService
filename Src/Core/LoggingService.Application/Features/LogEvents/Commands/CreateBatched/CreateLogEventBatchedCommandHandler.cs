@@ -39,21 +39,13 @@ internal sealed class CreateLogEventBatchedCommandHandler
         var logs = new List<LogEvent>();
         foreach(var logModel in request.Models)
         {
-            var validationResult = LogEventValidation.Validate(logModel.Message, logModel.Args);
-            if (!validationResult.IsSuccess)
+            var createResult = LogEvent.Create(
+            logModel.Timestamp, collection.Id, logModel.LogLevel, logModel.Message, logModel.Args);
+            if (!createResult.IsSuccess)
             {
-                return validationResult;
+                return createResult;
             }
-            var log = new LogEvent
-            {
-                Id = Guid.NewGuid(),
-                CreatedAtUtc = DateTime.UtcNow,
-                Timestamp = logModel.Timestamp,
-                CollectionId = collection.Id,
-                LogLevel = logModel.LogLevel,
-                Message = logModel.Message,
-                Args = logModel.Args,
-            };
+            var log = createResult.Value!;
             logs.Add(log);
         }
 
