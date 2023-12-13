@@ -1,8 +1,8 @@
 ﻿using LoggingService.WebApi.Contracts.Hubs;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 
-namespace LoggingService.WebApi.Hubs;
-
+namespace LoggingService.Endpoints.SignalR.Hubs;
 public class NotificationHub : Hub<INotificationHubClient>
 {
     private readonly ILogger<NotificationHub> _logger;

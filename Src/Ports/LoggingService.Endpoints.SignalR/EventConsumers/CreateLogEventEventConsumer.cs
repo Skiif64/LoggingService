@@ -1,11 +1,13 @@
 ﻿using LoggingService.Application.Base.Messaging;
 using LoggingService.Application.Features.LogEvents.Commands.Create;
+using LoggingService.Endpoints.SignalR.Hubs;
 using LoggingService.WebApi.Contracts.Hubs;
 using LoggingService.WebApi.Contracts.Models;
 using MapsterMapper;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.Logging;
 
-namespace LoggingService.WebApi.Hubs.EventConsumers;
+namespace LoggingService.Endpoints.SignalR.EventConsumers;
 
 internal sealed class CreateLogEventEventConsumer : IEventConsumer<LogEventCreatedEvent>
 {
