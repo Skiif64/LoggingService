@@ -35,6 +35,6 @@ app.UseCors(cfg =>
     cfg.AllowAnyMethod();
 });
 app.MapControllers();
-app.MapHub<NotificationHub>("hub/notification/connect");
+app.MapHub<NotificationHub>("hub/notification");
 
 app.Run();
