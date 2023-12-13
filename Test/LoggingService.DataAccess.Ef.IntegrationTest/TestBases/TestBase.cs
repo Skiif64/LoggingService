@@ -1,8 +1,5 @@
 ﻿using AutoFixture.AutoMoq;
-using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
-using LoggingService.DataAccess.Ef;
 using LoggingService.DataAccess.Ef.IntegrationTest.Fixtures;
-using LoggingService.DataAccess.Postgres.IntegrationTest.Fixtures;
 using LoggingService.Domain.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
