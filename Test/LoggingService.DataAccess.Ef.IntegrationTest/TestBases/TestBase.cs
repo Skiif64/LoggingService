@@ -1,12 +1,14 @@
 ﻿using AutoFixture.AutoMoq;
 using Castle.DynamicProxy.Generators.Emitters.SimpleAST;
+using LoggingService.DataAccess.Ef;
+using LoggingService.DataAccess.Ef.IntegrationTest.Fixtures;
 using LoggingService.DataAccess.Postgres.IntegrationTest.Fixtures;
 using LoggingService.Domain.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq.Expressions;
 
-namespace LoggingService.DataAccess.Postgres.IntegrationTest.TestBases;
+namespace LoggingService.DataAccess.Ef.IntegrationTest.TestBases;
 public abstract class TestBase : IAsyncLifetime, IClassFixture<ApplicationFixture>
 {
     private readonly IServiceScope _scope;
@@ -55,7 +57,7 @@ public abstract class TestBase : IAsyncLifetime, IClassFixture<ApplicationFixtur
         return context.Set<TEntity>().Where(predicate).ToList();
     }
 
-    public Task InitializeAsync() 
+    public Task InitializeAsync()
         => Task.CompletedTask;
 
     public async Task DisposeAsync()

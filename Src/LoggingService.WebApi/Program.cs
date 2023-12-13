@@ -1,5 +1,5 @@
 using LoggingService.Application;
-using LoggingService.DataAccess.Postgres;
+using LoggingService.DataAccess.Ef;
 using LoggingService.WebApi.Hubs;
 using Mapster;
 using MapsterMapper;

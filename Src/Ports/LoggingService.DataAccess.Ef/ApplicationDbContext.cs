@@ -2,7 +2,7 @@
 using LoggingService.Domain.Features.LogEvents;
 using Microsoft.EntityFrameworkCore;
 
-namespace LoggingService.DataAccess.Postgres;
+namespace LoggingService.DataAccess.Ef;
 public sealed class ApplicationDbContext : DbContext
 {
     public DbSet<LogEvent> LogEvents { get; private set; }
@@ -10,7 +10,7 @@ public sealed class ApplicationDbContext : DbContext
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
-        
+
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

@@ -2,7 +2,7 @@
 using LoggingService.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 
-namespace LoggingService.DataAccess.Postgres.Repositories;
+namespace LoggingService.DataAccess.Ef.Repositories;
 internal sealed class EventCollectionRepository : BaseRepository<EventCollection>, IEventCollectionRepository
 {
     public EventCollectionRepository(ApplicationDbContext context) : base(context)

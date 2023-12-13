@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace LoggingService.DataAccess.Postgres.EntityConfiguration;
+namespace LoggingService.DataAccess.Ef.EntityConfiguration;
 internal sealed class LogEventConfiguration
     : IEntityTypeConfiguration<LogEvent>
 {

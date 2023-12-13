@@ -1,18 +1,18 @@
 ﻿using LoggingService.Application.Base;
-using LoggingService.DataAccess.Postgres.Repositories;
+using LoggingService.DataAccess.Ef.Repositories;
 using LoggingService.Domain.Features.EventCollections;
 using LoggingService.Domain.Features.LogEvents;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LoggingService.DataAccess.Postgres;
+namespace LoggingService.DataAccess.Ef;
 public static class DependencyInjection
 {
     public static IServiceCollection AddDataAccess(this IServiceCollection services, IConfiguration configuration)
     {
         var connectionString = configuration.GetConnectionString("Npgsql");
-        if(connectionString is null)
+        if (connectionString is null)
         {
             throw new ArgumentNullException("Connection string with key: Npgsql not found");
         }
@@ -26,10 +26,10 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         var provider = services.BuildServiceProvider();
-        using(var scope = provider.CreateScope())
+        using (var scope = provider.CreateScope())
         {
             var context = provider.GetRequiredService<ApplicationDbContext>();
-            if(context.Database.GetPendingMigrations().Any())
+            if (context.Database.GetPendingMigrations().Any())
             {
                 context.Database.Migrate();
             }

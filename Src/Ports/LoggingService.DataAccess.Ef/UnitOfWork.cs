@@ -1,6 +1,6 @@
 ﻿using LoggingService.Application.Base;
 
-namespace LoggingService.DataAccess.Postgres;
+namespace LoggingService.DataAccess.Ef;
 internal sealed class UnitOfWork : IUnitOfWork
 {
     private readonly ApplicationDbContext _context;

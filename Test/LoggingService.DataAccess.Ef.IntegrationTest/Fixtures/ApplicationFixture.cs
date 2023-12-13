@@ -1,4 +1,5 @@
-﻿using LoggingService.DataAccess.Postgres.Repositories;
+﻿using LoggingService.DataAccess.Ef;
+using LoggingService.DataAccess.Ef.Repositories;
 using LoggingService.Domain.Features.EventCollections;
 using LoggingService.Domain.Features.LogEvents;
 using Microsoft.EntityFrameworkCore;
@@ -8,7 +9,7 @@ using Respawn;
 using System.Data.Common;
 using Testcontainers.PostgreSql;
 
-namespace LoggingService.DataAccess.Postgres.IntegrationTest.Fixtures;
+namespace LoggingService.DataAccess.Ef.IntegrationTest.Fixtures;
 public sealed class ApplicationFixture : IAsyncLifetime
 {
     private readonly PostgreSqlContainer _postgres;

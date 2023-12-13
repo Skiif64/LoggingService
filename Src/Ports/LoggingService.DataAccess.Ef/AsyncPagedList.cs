@@ -1,14 +1,14 @@
 ﻿using LoggingService.Domain.Shared;
 using Microsoft.EntityFrameworkCore;
 
-namespace LoggingService.DataAccess.Postgres;
+namespace LoggingService.DataAccess.Ef;
 internal sealed class AsyncPagedList<TEntity> : PagedList<TEntity>
 {
     public AsyncPagedList(IReadOnlyCollection<TEntity> items,
                           int pageIndex,
                           int pageSize,
                           int totalPages,
-                          int totalCount) 
+                          int totalCount)
         : base(items, pageIndex, pageSize, totalPages, totalCount)
     {
     }

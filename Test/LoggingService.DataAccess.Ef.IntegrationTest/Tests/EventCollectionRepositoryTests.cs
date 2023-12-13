@@ -1,8 +1,9 @@
-﻿using LoggingService.DataAccess.Postgres.IntegrationTest.Fixtures;
+﻿using LoggingService.DataAccess.Ef.IntegrationTest.Fixtures;
+using LoggingService.DataAccess.Ef.IntegrationTest.TestBases;
 using LoggingService.Domain.Features.EventCollections;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace LoggingService.DataAccess.Postgres.IntegrationTest.Tests;
+namespace LoggingService.DataAccess.Ef.IntegrationTest.Tests;
 public class EventCollectionRepositoryTests : TestBase
 {
     private readonly IEventCollectionRepository _sut;

@@ -1,21 +1,22 @@
-﻿using LoggingService.DataAccess.Postgres.IntegrationTest.Fixtures;
-using LoggingService.Domain.Features.LogEvents;
+﻿using LoggingService.Domain.Features.LogEvents;
 using Microsoft.Extensions.DependencyInjection;
 using AutoFixture.Xunit2;
 using System.ComponentModel.DataAnnotations;
+using LoggingService.DataAccess.Ef.IntegrationTest.Fixtures;
+using LoggingService.DataAccess.Ef.IntegrationTest.TestBases;
 
-namespace LoggingService.DataAccess.Postgres.IntegrationTest.Tests;
+namespace LoggingService.DataAccess.Ef.IntegrationTest.Tests;
 public class LogEventRepositoryTests : TestBase
 {
     private readonly ILogEventRepository _sut;
-    public LogEventRepositoryTests(ApplicationFixture application) 
+    public LogEventRepositoryTests(ApplicationFixture application)
         : base(application)
     {
         _sut = ScopeProvider.GetRequiredService<ILogEventRepository>();
     }
 
     [Theory, InlineAutoData]
-    public async Task GetPagedByCollectionId_ShouldReturnCorrectPagedList_WhenCountAlwaysEqualPageSize([Range(0, 10)]int pageIndex)
+    public async Task GetPagedByCollectionId_ShouldReturnCorrectPagedList_WhenCountAlwaysEqualPageSize([Range(0, 10)] int pageIndex)
     {
         var pageSize = 20;
         var count = (pageIndex + 1) * pageSize;

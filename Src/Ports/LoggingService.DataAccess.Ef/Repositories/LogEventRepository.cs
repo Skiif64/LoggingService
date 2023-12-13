@@ -1,7 +1,7 @@
 ﻿using LoggingService.Domain.Features.LogEvents;
 using LoggingService.Domain.Shared;
 
-namespace LoggingService.DataAccess.Postgres.Repositories;
+namespace LoggingService.DataAccess.Ef.Repositories;
 internal sealed class LogEventRepository : BaseRepository<LogEvent>, ILogEventRepository
 {
 

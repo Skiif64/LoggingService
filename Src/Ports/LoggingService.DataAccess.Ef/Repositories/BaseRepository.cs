@@ -1,7 +1,8 @@
-﻿using LoggingService.Domain.Base;
+﻿using LoggingService.DataAccess.Ef;
+using LoggingService.Domain.Base;
 using LoggingService.Domain.Exceptions;
 
-namespace LoggingService.DataAccess.Postgres.Repositories;
+namespace LoggingService.DataAccess.Ef.Repositories;
 internal abstract class BaseRepository<TEntity> : ICrudRepository<TEntity>
     where TEntity : BaseEntity
 {
@@ -26,7 +27,7 @@ internal abstract class BaseRepository<TEntity> : ICrudRepository<TEntity>
     {
         var existingEntry = await Context.Set<TEntity>()
             .FindAsync(new object[] { id }, cancellationToken);
-        if(existingEntry is null)
+        if (existingEntry is null)
         {
             throw new EntityNotFoundException(typeof(TEntity), id, "Id");
         }

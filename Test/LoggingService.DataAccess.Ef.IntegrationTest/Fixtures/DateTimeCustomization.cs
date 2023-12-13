@@ -1,4 +1,4 @@
-﻿namespace LoggingService.DataAccess.Postgres.IntegrationTest.Fixtures;
+﻿namespace LoggingService.DataAccess.Ef.IntegrationTest.Fixtures;
 public class DateTimeCustomization : ICustomization
 {
     public void Customize(IFixture fixture)
