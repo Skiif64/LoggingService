@@ -1,4 +1,5 @@
-﻿using LoggingService.DataAccess.Ef;
+﻿using LoggingService.Application.Authentication.Application;
+using LoggingService.DataAccess.Ef;
 using LoggingService.DataAccess.Ef.Repositories;
 using LoggingService.Domain.Features.EventCollections;
 using LoggingService.Domain.Features.LogEvents;
@@ -20,7 +21,7 @@ public sealed class ApplicationFixture : IAsyncLifetime
     {
         _postgres = new PostgreSqlBuilder()
             .WithDatabase("Logs-Test")
-            .WithName("Postgres-Test")
+            .WithName($"Postgres-Test-{Guid.NewGuid()}")
             .Build();
     }
     public async Task InitializeAsync()
@@ -54,6 +55,7 @@ public sealed class ApplicationFixture : IAsyncLifetime
 
         collection.AddScoped<ILogEventRepository, LogEventRepository>();
         collection.AddScoped<IEventCollectionRepository, EventCollectionRepository>();
+        collection.AddScoped<IApplicationIdentityRepository, ApplicationIdentityRepository>();
         Provider = collection.BuildServiceProvider();
         await using var scope = Provider.CreateAsyncScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
