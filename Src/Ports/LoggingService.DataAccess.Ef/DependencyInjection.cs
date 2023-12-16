@@ -1,4 +1,5 @@
-﻿using LoggingService.Application.Base;
+﻿using LoggingService.Application.Authentication.Application;
+using LoggingService.Application.Base;
 using LoggingService.DataAccess.Ef.Repositories;
 using LoggingService.Domain.Features.EventCollections;
 using LoggingService.Domain.Features.LogEvents;
@@ -23,6 +24,7 @@ public static class DependencyInjection
 
         services.AddScoped<ILogEventRepository, LogEventRepository>();
         services.AddScoped<IEventCollectionRepository, EventCollectionRepository>();
+        services.AddScoped<IApplicationIdentityRepository, ApplicationIdentityRepository>();
         services.AddScoped<IUnitOfWork, UnitOfWork>();
 
         var provider = services.BuildServiceProvider();
