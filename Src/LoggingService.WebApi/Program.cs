@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.HttpLogging;
 using LoggingService.Endpoints.Application;
 using LoggingService.Endpoints.Frontend;
 using LoggingService.Endpoints.SignalR;
+using LoggingService.Application.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddHttpLogging(cfg =>
@@ -16,6 +17,7 @@ builder.Services.AddHttpLogging(cfg =>
 builder.Services.AddCors();
 builder.Services.AddApplication();
 builder.Services.AddDataAccess(builder.Configuration);
+builder.Services.AddApplicationAuthentication();
 builder.Services.AddControllers();
 var mapsterConfig = new TypeAdapterConfig();
 mapsterConfig.Scan(AppDomain.CurrentDomain.GetAssemblies());
@@ -32,6 +34,9 @@ app.UseCors(cfg =>
     cfg.AllowAnyMethod();
 });
 app.MapControllers();
+
+app.UseApplicationAuthenticationEndpoints();
+
 app.UseApplicationEndpoints();
 app.UseFrontendEndpoints();
 app.UseHubs();

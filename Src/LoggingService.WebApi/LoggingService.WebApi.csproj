@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Core\LoggingService.Application\LoggingService.Application.csproj" />
+    <ProjectReference Include="..\Ports\LoggingService.Application.Auth\LoggingService.Application.Auth.csproj" />
     <ProjectReference Include="..\Ports\LoggingService.DataAccess.Ef\LoggingService.DataAccess.Ef.csproj" />
     <ProjectReference Include="..\LoggingService.WebApi.Contracts\LoggingService.WebApi.Contracts.csproj" />
     <ProjectReference Include="..\Ports\LoggingService.Endpoints.Application\LoggingService.Endpoints.Application.csproj" />

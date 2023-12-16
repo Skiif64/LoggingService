@@ -10,6 +10,10 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication" Version="2.2.0" />
     <PackageReference Include="Microsoft.Extensions.Caching.Abstractions" Version="7.0.0" />
   </ItemGroup>
+  
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
 
   <ItemGroup>
     <InternalsVisibleTo Include="LoggingService.Application.Auth.UnitTests" />
