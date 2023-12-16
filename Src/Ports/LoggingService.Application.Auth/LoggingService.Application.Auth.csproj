@@ -12,6 +12,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="LoggingService.Application.Auth.UnitTests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\Core\LoggingService.Application\LoggingService.Application.csproj" />
   </ItemGroup>
 
