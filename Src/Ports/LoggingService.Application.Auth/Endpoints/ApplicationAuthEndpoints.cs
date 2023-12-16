@@ -19,7 +19,7 @@ public sealed class ApplicationAuthEndpoints
         [FromBody] ApplicationRegisterViewModel model,
         CancellationToken cancellationToken)
     {
-        var result = await service.RegisterApplicationAsync(model.Name, model.ExpiredAtUtc, cancellationToken);
+        var result = await service.RegisterApplicationAsync(model.Name, model.ExpireAtUtc, cancellationToken);
         if(result.IsSuccess)
         {
             return Results.Ok(result.Value);

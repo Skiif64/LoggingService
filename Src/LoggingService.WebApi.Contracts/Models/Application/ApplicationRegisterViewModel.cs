@@ -2,5 +2,5 @@
 public sealed class ApplicationRegisterViewModel
 {
     public required string Name { get; init; }
-    public required DateTime ExpiredAtUtc { get; init; }
+    public required DateTime ExpireAtUtc { get; init; }
 }
