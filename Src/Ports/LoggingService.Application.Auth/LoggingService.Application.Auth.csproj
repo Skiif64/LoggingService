@@ -21,6 +21,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Core\LoggingService.Application\LoggingService.Application.csproj" />
+    <ProjectReference Include="..\..\LoggingService.WebApi.Contracts\LoggingService.WebApi.Contracts.csproj" />
   </ItemGroup>
 
 </Project>
