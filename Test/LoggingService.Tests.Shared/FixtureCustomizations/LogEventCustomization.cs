@@ -2,7 +2,7 @@
 using LoggingService.Domain.Features.LogEvents;
 using System.Text;
 
-namespace LoggingService.Application.UnitTests.Fixtures;
+namespace LoggingService.Tests.Shared.FixtureCustomizations;
 public class LogEventCustomization : ICustomization
 {
     public void Customize(IFixture fixture)
@@ -11,12 +11,20 @@ public class LogEventCustomization : ICustomization
         var message = CreateMessage(fixture, args);
         fixture.Register<LogEvent>(() =>
         {
-            return LogEvent.Create(
+            var logEvent = LogEvent.Create(
                 fixture.Create<DateTime>(),
                 fixture.Create<Guid>(),
                 fixture.Create<LogEventLevel>(),
                 message,
-                args).Value!;
+                args);
+            if(logEvent.IsSuccess)
+            {
+                return logEvent.Value!;
+            }
+            else
+            {
+                throw new Exception();
+            }
         });
     }
 

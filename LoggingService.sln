@@ -35,7 +35,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.Endpoints.Si
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.Application.Auth", "Src\Ports\LoggingService.Application.Auth\LoggingService.Application.Auth.csproj", "{80E671F4-D814-4373-93B7-1E6BF9EE3DB6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingService.Application.Auth.UnitTests", "Test\LoggingService.Application.Auth.UnitTests\LoggingService.Application.Auth.UnitTests.csproj", "{354D2CFB-572D-42A6-B16A-A7FE73569079}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LoggingService.Application.Auth.UnitTests", "Test\LoggingService.Application.Auth.UnitTests\LoggingService.Application.Auth.UnitTests.csproj", "{354D2CFB-572D-42A6-B16A-A7FE73569079}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggingService.Tests.Shared", "Test\LoggingService.Tests.Shared\LoggingService.Tests.Shared.csproj", "{5D2D1ED6-6884-4056-92F2-019592D98E7D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -91,6 +93,10 @@ Global
 		{354D2CFB-572D-42A6-B16A-A7FE73569079}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{354D2CFB-572D-42A6-B16A-A7FE73569079}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{354D2CFB-572D-42A6-B16A-A7FE73569079}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D2D1ED6-6884-4056-92F2-019592D98E7D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D2D1ED6-6884-4056-92F2-019592D98E7D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D2D1ED6-6884-4056-92F2-019592D98E7D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D2D1ED6-6884-4056-92F2-019592D98E7D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -110,6 +116,7 @@ Global
 		{99B8065B-6B75-4741-9EBB-EBE1456600BD} = {61A919B9-1C90-43D5-B6F9-767E2256B640}
 		{80E671F4-D814-4373-93B7-1E6BF9EE3DB6} = {61A919B9-1C90-43D5-B6F9-767E2256B640}
 		{354D2CFB-572D-42A6-B16A-A7FE73569079} = {5CD3F789-80B1-4A15-98D0-EB12ACFD4E42}
+		{5D2D1ED6-6884-4056-92F2-019592D98E7D} = {5CD3F789-80B1-4A15-98D0-EB12ACFD4E42}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FD314370-0121-400B-838B-3283FE6324D2}

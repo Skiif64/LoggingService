@@ -3,6 +3,7 @@ using LoggingService.Application.Features.LogEvents.Queries.GetPaged;
 using LoggingService.Application.UnitTests.Extensions;
 using LoggingService.Domain.Features.EventCollections;
 using LoggingService.Domain.Features.LogEvents;
+using LoggingService.Tests.Shared.Extensions;
 using Microsoft.Extensions.Logging;
 
 namespace LoggingService.Application.UnitTests.Tests.LogEvents.Queries;

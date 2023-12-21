@@ -3,12 +3,12 @@ using LoggingService.Application.Features.LogEvents.Commands;
 using LoggingService.Domain.Features.LogEvents;
 using System.Text;
 
-namespace LoggingService.Application.UnitTests.Fixtures;
+namespace LoggingService.Tests.Shared.FixtureCustomizations;
 public class CreateLogEventDtoCustomization : ICustomization
 {
     public void Customize(IFixture fixture)
     {
-        fixture.Register<CreateLogEventDto>(() =>
+        fixture.Register(() =>
         {
             var args = fixture.Create<Dictionary<string, string>>();
             var message = CreateMessage(fixture, args);
@@ -23,7 +23,7 @@ public class CreateLogEventDtoCustomization : ICustomization
     private string CreateMessage(IFixture fixture, Dictionary<string, string> args)
     {
         var sb = new StringBuilder(fixture.Create<string>());
-        foreach(var arg in args)
+        foreach (var arg in args)
         {
             sb.Insert(sb.Length, $" {{{arg.Key}}} ");
         }

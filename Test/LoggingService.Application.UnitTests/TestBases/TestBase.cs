@@ -5,6 +5,7 @@ using Microsoft.Extensions.Logging.Abstractions;
 using AutoFixture;
 using AutoFixture.AutoMoq;
 using LoggingService.Application.UnitTests.Fixtures;
+using LoggingService.Tests.Shared.FixtureCustomizations;
 
 namespace LoggingService.Application.UnitTests.TestBases;
 public abstract class TestBase
