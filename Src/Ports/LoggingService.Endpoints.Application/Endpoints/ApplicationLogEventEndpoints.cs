@@ -1,4 +1,5 @@
-﻿using LoggingService.Application.Features.LogEvents.Commands.Create;
+﻿using LoggingService.Application.Authentication;
+using LoggingService.Application.Features.LogEvents.Commands.Create;
 using LoggingService.Application.Features.LogEvents.Commands.CreateBatched;
 using LoggingService.Application.Features.LogEvents.Commands;
 using LoggingService.WebApi.Contracts.Models;
@@ -7,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using MapsterMapper;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LoggingService.Endpoints.Application.Endpoints;
 public sealed class ApplicationLogEventEndpoints
@@ -16,7 +18,8 @@ public sealed class ApplicationLogEventEndpoints
         app.MapPost("~/api/event/{collectionName}", InsertAsync);
         app.MapPost("~/api/event/{collectionName}/batched", InsertBatchedAsync);
     }
-
+    
+    [Authorize(AuthenticationSchemes = AuthenticationSchemes.ApiKeyScheme)]
     private async Task<IResult> InsertAsync(HttpContext httpContext,
         [FromServices] ISender sender,
         [FromServices] IMapper mapper,
@@ -35,7 +38,8 @@ public sealed class ApplicationLogEventEndpoints
             return Results.BadRequest(result.Error);
         }
     }
-
+    
+    [Authorize(AuthenticationSchemes = AuthenticationSchemes.ApiKeyScheme)]
     private async Task<IResult> InsertBatchedAsync(HttpContext httpContext,
         [FromServices] ISender sender,
         [FromServices] IMapper mapper,

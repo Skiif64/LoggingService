@@ -27,6 +27,9 @@ builder.Services.AddHubs();
 
 var app = builder.Build();
 app.UseHttpLogging();
+
+app.UseAuthentication();
+
 app.UseCors(cfg =>
 {
     cfg.AllowAnyOrigin();

@@ -24,7 +24,41 @@ namespace LoggingService.DataAccess.Postgres.Migrations
             NpgsqlModelBuilderExtensions.HasPostgresExtension(modelBuilder, "hstore");
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("LoggingService.Application.Authentication.Application.ApplicationIdentity", b =>
+            modelBuilder.Entity("LoggingService.Application.Authentication.Application.ApiKey", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<byte[]>("ApiKeyHash")
+                        .IsRequired()
+                        .HasColumnType("bytea");
+
+                    b.Property<string>("ApiKeyPrefix")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.Property<Guid>("ApplicationId")
+                        .HasColumnType("uuid");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("ExpireAtUtc")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApiKeyPrefix")
+                        .IsUnique();
+
+                    b.HasIndex("ApplicationId")
+                        .IsUnique();
+
+                    b.ToTable("ApiKey");
+                });
+
+            modelBuilder.Entity("LoggingService.Domain.Features.Applications.ApplicationIdentity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -99,36 +133,6 @@ namespace LoggingService.DataAccess.Postgres.Migrations
                     b.HasIndex("CollectionId");
 
                     b.ToTable("LogEvents");
-                });
-
-            modelBuilder.Entity("LoggingService.Application.Authentication.Application.ApplicationIdentity", b =>
-                {
-                    b.OwnsOne("LoggingService.Application.Authentication.Application.ApiKey", "ApiKey", b1 =>
-                        {
-                            b1.Property<Guid>("ApplicationIdentityId")
-                                .HasColumnType("uuid");
-
-                            b1.Property<byte[]>("ApiKeyHash")
-                                .IsRequired()
-                                .HasColumnType("bytea");
-
-                            b1.Property<string>("ApiKeyPrefix")
-                                .IsRequired()
-                                .HasColumnType("text");
-
-                            b1.Property<DateTime>("ExpireAtUtc")
-                                .HasColumnType("timestamp with time zone");
-
-                            b1.HasKey("ApplicationIdentityId");
-
-                            b1.ToTable("Applications");
-
-                            b1.WithOwner()
-                                .HasForeignKey("ApplicationIdentityId");
-                        });
-
-                    b.Navigation("ApiKey")
-                        .IsRequired();
                 });
 #pragma warning restore 612, 618
         }

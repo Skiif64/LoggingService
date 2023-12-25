@@ -1,7 +1,9 @@
-﻿using LoggingService.Application.Features.EventCollections.Commands.Create;
+﻿using LoggingService.Application.Authentication;
+using LoggingService.Application.Features.EventCollections.Commands.Create;
 using LoggingService.WebApi.Contracts.Models;
 using MapsterMapper;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +16,7 @@ public sealed class ApplicationEventCollectionEndpoints
         app.MapPost("~/api/collection", CreateAsync);
     }
 
+    [Authorize(AuthenticationSchemes = AuthenticationSchemes.ApiKeyScheme)]
     public async Task<IResult> CreateAsync(HttpContext httpContext,
         [FromServices] ISender sender,
         [FromBody] CreateEventCollectionViewModel model,
