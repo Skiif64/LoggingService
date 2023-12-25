@@ -8,11 +8,11 @@ using System.Security.Claims;
 using System.Text.Encodings.Web;
 
 namespace LoggingService.Application.Auth;
-public sealed class AuthKeyAuthenticationHandler : AuthenticationHandler<ApiKeyAuthenticationOptions>
+public sealed class ApiKeyAuthenticationHandler : AuthenticationHandler<ApiKeyAuthenticationOptions>
 {
     private const string AuthKeyHeader = "X-Api-Key";
     private readonly IApplicationAuthenticationService _authService;
-    public AuthKeyAuthenticationHandler(
+    public ApiKeyAuthenticationHandler(
         IOptionsMonitor<ApiKeyAuthenticationOptions> options,
         ILoggerFactory logger,
         UrlEncoder encoder,

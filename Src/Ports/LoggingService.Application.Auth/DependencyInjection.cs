@@ -11,7 +11,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IApplicationAuthenticationService, ApplicationAuthenticationService>();
         services.AddAuthentication()
-            .AddScheme<ApiKeyAuthenticationOptions, AuthKeyAuthenticationHandler>(AuthenticationSchemes.ApiKeyScheme, opt =>
+            .AddScheme<ApiKeyAuthenticationOptions, ApiKeyAuthenticationHandler>(AuthenticationSchemes.ApiKeyScheme, opt =>
             {
                
             });
