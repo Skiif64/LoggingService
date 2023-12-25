@@ -1,4 +1,5 @@
-﻿using LoggingService.Domain.Shared;
+﻿using LoggingService.Domain.Features.Applications;
+using LoggingService.Domain.Shared;
 
 namespace LoggingService.Application.Authentication.Application;
 public interface IApplicationAuthenticationService
@@ -21,17 +22,17 @@ public interface IApplicationAuthenticationService
     /// <summary>
     /// Renew existing app credential
     /// </summary>
-    /// <param name="id">ApplicationIdentity id</param>
+    /// <param name="keyPrefix">Api key prefix</param>
     /// <param name="expireAtUtc">New expiration time</param>
     /// <param name="cancellationToken"></param>
     /// <returns>Result with new apiKey or error</returns>
-    Task<Result<string>> RenewApplicationAsync(Guid id, DateTime expireAtUtc, CancellationToken cancellationToken = default);
+    Task<Result<string>> RenewApiKeyAsync(string keyPrefix, DateTime expireAtUtc, CancellationToken cancellationToken = default);
 
     /// <summary>
     /// Revoke application identity
     /// </summary>
-    /// <param name="id">Application id</param>
+    /// <param name="keyPrefix">Api key prefix</param>
     /// <param name="cancellationToken"></param>
     /// <returns></returns>
-    Task<Result> RevokeApplicationAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<Result> RevokeApiKeyAsync(string keyPrefix, CancellationToken cancellationToken = default);
 }

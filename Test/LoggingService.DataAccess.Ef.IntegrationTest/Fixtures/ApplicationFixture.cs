@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Npgsql;
 using Respawn;
 using System.Data.Common;
+using LoggingService.Domain.Features.Applications;
 using Testcontainers.PostgreSql;
 
 namespace LoggingService.DataAccess.Ef.IntegrationTest.Fixtures;
@@ -56,6 +57,7 @@ public sealed class ApplicationFixture : IAsyncLifetime
         collection.AddScoped<ILogEventRepository, LogEventRepository>();
         collection.AddScoped<IEventCollectionRepository, EventCollectionRepository>();
         collection.AddScoped<IApplicationIdentityRepository, ApplicationIdentityRepository>();
+        collection.AddScoped<IApiKeyRepository, ApiKeyRepository>();
         Provider = collection.BuildServiceProvider();
         await using var scope = Provider.CreateAsyncScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();

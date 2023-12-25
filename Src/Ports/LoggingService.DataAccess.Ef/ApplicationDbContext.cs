@@ -1,4 +1,5 @@
 ﻿using LoggingService.Application.Authentication.Application;
+using LoggingService.Domain.Features.Applications;
 using LoggingService.Domain.Features.EventCollections;
 using LoggingService.Domain.Features.LogEvents;
 using Microsoft.EntityFrameworkCore;

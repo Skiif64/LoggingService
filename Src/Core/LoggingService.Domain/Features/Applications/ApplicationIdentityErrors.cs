@@ -1,7 +1,7 @@
-﻿using LoggingService.Domain.Shared;
-using System.Net;
+﻿using System.Net;
+using LoggingService.Domain.Shared;
 
-namespace LoggingService.Application.Authentication.Application;
+namespace LoggingService.Domain.Features.Applications;
 public static class ApplicationIdentityErrors
 {
     public static Error KeyError

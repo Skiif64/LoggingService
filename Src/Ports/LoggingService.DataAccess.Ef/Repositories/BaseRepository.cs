@@ -3,7 +3,8 @@ using LoggingService.Domain.Base;
 using LoggingService.Domain.Exceptions;
 
 namespace LoggingService.DataAccess.Ef.Repositories;
-internal abstract class BaseRepository<TEntity> : ICrudRepository<TEntity>
+
+public abstract class BaseRepository<TEntity> : ICrudRepository<TEntity>
     where TEntity : BaseEntity
 {
     protected ApplicationDbContext Context { get; }

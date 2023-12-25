@@ -1,11 +1,10 @@
-﻿using LoggingService.Domain.Base;
-using System.Security.Claims;
+﻿using System.Security.Claims;
+using LoggingService.Domain.Base;
 
-namespace LoggingService.Application.Authentication.Application;
+namespace LoggingService.Domain.Features.Applications;
 public class ApplicationIdentity : BaseEntity //TODO: private setters, ctor, move to domain?
 {
-    public string Name { get; set; } = null!;
-    public ApiKey ApiKey { get; set; } = null!;
+    public string Name { get; private set; } = null!;
     private ApplicationIdentity()
     {
         
@@ -19,14 +18,13 @@ public class ApplicationIdentity : BaseEntity //TODO: private setters, ctor, mov
         };
     }
 
-    public static ApplicationIdentity Create(string name, ApiKey apiKey)
+    public static ApplicationIdentity Create(string name)
     {       
         return new ApplicationIdentity
         {
             Id = Guid.NewGuid(),
             CreatedAtUtc = DateTime.UtcNow,
             Name = name,
-            ApiKey = apiKey,
         };
     }
 }

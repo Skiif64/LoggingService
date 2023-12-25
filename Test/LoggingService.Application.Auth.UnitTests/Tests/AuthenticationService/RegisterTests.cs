@@ -1,16 +1,19 @@
 ﻿using FluentAssertions;
 using LoggingService.Application.Auth.UnitTests.TestBases;
 using LoggingService.Application.Authentication.Application;
+using LoggingService.Domain.Features.Applications;
 
 namespace LoggingService.Application.Auth.UnitTests.Tests.AuthenticationService;
 public sealed class RegisterTests : TestBase
 {
     private readonly Mock<IApplicationIdentityRepository> _identityRepositoryMock;
+    private readonly Mock<IApiKeyRepository> _apiKeyRepositoryMock;
     private readonly ApplicationAuthenticationService _sut;
     public RegisterTests()
     {
         _identityRepositoryMock = new Mock<IApplicationIdentityRepository>();
-        _sut = new ApplicationAuthenticationService(_identityRepositoryMock.Object, UnitOfWorkMock.Object);
+        _apiKeyRepositoryMock = new Mock<IApiKeyRepository>();
+        _sut = new ApplicationAuthenticationService(_identityRepositoryMock.Object, _apiKeyRepositoryMock.Object, UnitOfWorkMock.Object);
     }
 
     [Fact]

@@ -1,4 +1,5 @@
 ﻿using LoggingService.Application.Authentication.Application;
+using LoggingService.Domain.Features.Applications;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -9,6 +10,5 @@ internal sealed class ApplicationIdentityConfiguration
     public void Configure(EntityTypeBuilder<ApplicationIdentity> builder)
     {
         builder.HasIndex(prop => prop.Name).IsUnique();
-        builder.OwnsOne(prop => prop.ApiKey);
     }
 }

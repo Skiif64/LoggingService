@@ -35,7 +35,7 @@ public sealed class ApplicationAuthEndpoints
         [FromBody] ApplicationRenewViewModel model,
         CancellationToken cancellationToken)
     {
-        var result = await service.RenewApplicationAsync(model.ApplicationId, model.ExpireAtUtc, cancellationToken);
+        var result = await service.RenewApiKeyAsync(model.ApiKeyPrefix, model.ExpireAtUtc, cancellationToken);
         if (result.IsSuccess)
         {
             return Results.Ok(result.Value);
@@ -48,10 +48,10 @@ public sealed class ApplicationAuthEndpoints
 
     private async Task<IResult> RevokeAsync(HttpContext context,
         [FromServices] IApplicationAuthenticationService service,
-        [FromQuery] Guid applicationId,
+        [FromQuery] string keyPrefix,
         CancellationToken cancellationToken)
     {
-        var result = await service.RevokeApplicationAsync(applicationId, cancellationToken);
+        var result = await service.RevokeApiKeyAsync(keyPrefix, cancellationToken);
         if (result.IsSuccess)
         {
             return Results.Ok();
