@@ -12,15 +12,15 @@ public class NotificationHub : Hub<INotificationHubClient>
         _logger = logger;
     }
 
-    public async Task ListenCollection(string collectionName, CancellationToken cancellationToken = default)
+    public async Task ListenCollection(string collectionName)
     {
-        await Groups.AddToGroupAsync(Context.ConnectionId, collectionName, cancellationToken);
+        await Groups.AddToGroupAsync(Context.ConnectionId, collectionName);
         _logger.LogInformation("Connection {id} has started listening {name}", Context.ConnectionId, collectionName); //TODO: get user claims
     }
 
-    public async Task StopListenCollection(string collectionName, CancellationToken cancellationToken = default)
+    public async Task StopListenCollection(string collectionName)
     {
-        await Groups.RemoveFromGroupAsync(Context.ConnectionId, collectionName, cancellationToken);
+        await Groups.RemoveFromGroupAsync(Context.ConnectionId, collectionName);
         _logger.LogInformation("Connection {id} has stopped listening {name}", Context.ConnectionId, collectionName);
     }
 }

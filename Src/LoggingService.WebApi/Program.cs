@@ -14,7 +14,14 @@ builder.Services.AddHttpLogging(cfg =>
     cfg.LoggingFields = HttpLoggingFields.RequestProperties | HttpLoggingFields.ResponseStatusCode;
 });
 
-builder.Services.AddCors();
+builder.Services.AddCors(opt => opt.AddPolicy("DevelopmentPolicy", builder =>
+{
+    builder.WithOrigins("https://localhost:3000");
+    builder.AllowCredentials();
+    builder.AllowAnyHeader();
+    builder.AllowAnyMethod();
+    builder.SetIsOriginAllowed(host => true);
+}));
 builder.Services.AddApplication();
 builder.Services.AddDataAccess(builder.Configuration);
 builder.Services.AddApplicationAuthentication();
@@ -30,12 +37,7 @@ app.UseHttpLogging();
 
 app.UseAuthentication();
 
-app.UseCors(cfg =>
-{
-    cfg.AllowAnyOrigin();
-    cfg.AllowAnyHeader();
-    cfg.AllowAnyMethod();
-});
+app.UseCors("DevelopmentPolicy");
 app.MapControllers();
 
 app.UseApplicationAuthenticationEndpoints();

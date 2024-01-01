@@ -7,6 +7,7 @@ using LoggingService.Domain.Features.LogEvents;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Npgsql;
 
 namespace LoggingService.DataAccess.Ef;
 public static class DependencyInjection
