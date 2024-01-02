@@ -4,6 +4,7 @@ using LoggingService.Application.UnitTests.Extensions;
 using LoggingService.Domain.Features.EventCollections;
 using LoggingService.Domain.Features.LogEvents;
 using LoggingService.Tests.Shared.Extensions;
+using LoggingService.Tests.Shared.Specimen;
 using Microsoft.Extensions.Logging;
 
 namespace LoggingService.Application.UnitTests.Tests.LogEvents.Queries;
@@ -27,9 +28,8 @@ public class GetPagedLogEventsQueryTests : TestBase
     {
         var query = new GetPagedLogEventsQuery("TestCollection", 0, 20);
         var collection = Fixture.Create<EventCollection>();
-        var logs = Fixture.Build<LogEvent>()
-            .With(prop => prop.CollectionId, collection.Id)
-            .CreateMany(20);
+        Fixture.Customizations.Add(new LogEventSpecimenBuilder(collection.Id));
+        var logs = Fixture.CreateMany<LogEvent>(20);
         _collectionRepository.Setup(x => x.GetByNameAsync(query.CollectionName, default))
             .ReturnsAsync(collection);
         _logRepository.Setup(x => x.GetPagedByCollectionIdAsync(collection.Id, query.PageIndex, query.PageSize, CancellationToken))

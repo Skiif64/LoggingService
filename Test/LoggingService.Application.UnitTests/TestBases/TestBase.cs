@@ -23,7 +23,6 @@ public abstract class TestBase
         EventBusMock = new Mock<IEventBus>();
         Fixture = new Fixture()
             .Customize(new AutoMoqCustomization())
-            .Customize(new CreateLogEventDtoCustomization())
-            .Customize(new LogEventCustomization());
+            .Customize(new CreateLogEventDtoCustomization());
     }
 }

@@ -36,6 +36,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Src\Ports\LoggingService.DataAccess.Ef\LoggingService.DataAccess.Ef.csproj" />
+    <ProjectReference Include="..\LoggingService.Tests.Shared\LoggingService.Tests.Shared.csproj" />
   </ItemGroup>
 
 </Project>

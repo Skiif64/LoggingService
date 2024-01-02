@@ -4,6 +4,7 @@ using LoggingService.Domain.Base;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Linq.Expressions;
+using LoggingService.Tests.Shared.FixtureCustomizations;
 
 namespace LoggingService.DataAccess.Ef.IntegrationTest.TestBases;
 public abstract class TestBase : IAsyncLifetime, IClassFixture<ApplicationFixture>
@@ -19,7 +20,8 @@ public abstract class TestBase : IAsyncLifetime, IClassFixture<ApplicationFixtur
     {
         Application = application;
         CancellationToken = new CancellationToken();
-        Fixture = new Fixture().Customize(new AutoMoqCustomization()).Customize(new DateTimeCustomization());
+        Fixture = new Fixture().Customize(new AutoMoqCustomization())
+            .Customize(new DateTimeCustomization());
         _scope = Application.Provider.CreateScope();
         ScopeProvider = _scope.ServiceProvider;
         Context = ScopeProvider.GetRequiredService<ApplicationDbContext>();
@@ -35,7 +37,7 @@ public abstract class TestBase : IAsyncLifetime, IClassFixture<ApplicationFixtur
         await using var scope = Application.Provider.CreateAsyncScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         await context.Set<TEntity>().AddRangeAsync(entities);
-        await context.SaveChangesAsync();
+        await context.SaveChangesAsync(CancellationToken);
     }
 
     public async Task<TEntity?> GetFirstFromDbAsync<TEntity>(Expression<Func<TEntity, bool>> predicate)
@@ -43,7 +45,7 @@ public abstract class TestBase : IAsyncLifetime, IClassFixture<ApplicationFixtur
     {
         await using var scope = Application.Provider.CreateAsyncScope();
         var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-        return await context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+        return await context.Set<TEntity>().FirstOrDefaultAsync(predicate, CancellationToken);
     }
 
     public IEnumerable<TEntity> GetFromDb<TEntity>(Expression<Func<TEntity, bool>> predicate)
