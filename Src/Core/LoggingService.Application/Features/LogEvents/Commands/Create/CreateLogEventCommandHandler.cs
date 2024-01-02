@@ -31,11 +31,11 @@ internal sealed class CreateLogEventCommandHandler
 
     public async Task<Result> Handle(CreateLogEventCommand request, CancellationToken cancellationToken)
     {        
-        var collection = await _eventCollectionRepository.GetByNameAsync(request.CollectionName, cancellationToken);
+        var collection = await _eventCollectionRepository.GetByIdAsync(request.CollectionId, cancellationToken);
         if(collection is null)
         {
-            _logger.LogWarning("EventCollection with name: {name} was not found", request.CollectionName);
-            return Result.Failure(EventCollectionErrors.NotFound(nameof(collection.Name), request.CollectionName));
+            _logger.LogWarning("EventCollection with id: {name} was not found", request.CollectionId);
+            return Result.Failure(EventCollectionErrors.NotFound(nameof(collection.Name), request.CollectionId));
         }
         //TODO: refactor log event
         var createResult = LogEvent.Create(

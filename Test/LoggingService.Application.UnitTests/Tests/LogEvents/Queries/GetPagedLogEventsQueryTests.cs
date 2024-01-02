@@ -26,11 +26,11 @@ public class GetPagedLogEventsQueryTests : TestBase
     [Fact]       
     public async Task Handle_ShouldReturnSuccessResult()
     {
-        var query = new GetPagedLogEventsQuery("TestCollection", 0, 20);
+        var query = new GetPagedLogEventsQuery(Guid.NewGuid(), 0, 20);
         var collection = Fixture.Create<EventCollection>();
         Fixture.Customizations.Add(new LogEventSpecimenBuilder(collection.Id));
         var logs = Fixture.CreateMany<LogEvent>(20);
-        _collectionRepository.Setup(x => x.GetByNameAsync(query.CollectionName, default))
+        _collectionRepository.Setup(x => x.GetByIdAsync(query.CollectionId, default))
             .ReturnsAsync(collection);
         _logRepository.Setup(x => x.GetPagedByCollectionIdAsync(collection.Id, query.PageIndex, query.PageSize, CancellationToken))
             .ReturnsAsync(logs.ToPagedList(0, 20));
@@ -43,11 +43,11 @@ public class GetPagedLogEventsQueryTests : TestBase
     [Fact]
     public async Task Handle_ShouldReturnNotFoundError_WhenCollectionNotFound()
     {       
-        var query = new GetPagedLogEventsQuery("TestCollection", 0, 20);
+        var query = new GetPagedLogEventsQuery(Guid.NewGuid(), 0, 20);
        
         var result = await _sut.Handle(query, CancellationToken);
 
         Assert.False(result.IsSuccess, "Result is success");
-        Assert.Equal(EventCollectionErrors.NotFound(nameof(EventCollection.Name), query.CollectionName), result.Error);
+        Assert.Equal(EventCollectionErrors.NotFound(nameof(EventCollection.Name), query.CollectionId), result.Error);
     }
 }

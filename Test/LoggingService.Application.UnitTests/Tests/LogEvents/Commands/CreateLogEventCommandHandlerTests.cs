@@ -31,7 +31,7 @@ public class CreateLogEventCommandHandlerTests : TestBase
         var command = Fixture.Create<CreateLogEventCommand>();
         var collection = Fixture.Build<EventCollection>()
             .Create();
-        _collectionRepositoryMock.Setup(x => x.GetByNameAsync(command.CollectionName, default))
+        _collectionRepositoryMock.Setup(x => x.GetByIdAsync(command.CollectionId, default))
             .ReturnsAsync(collection);
 
         var result = await _sut.Handle(command, CancellationToken);
@@ -45,7 +45,7 @@ public class CreateLogEventCommandHandlerTests : TestBase
         UnitOfWorkMock.Setup(x => x.SaveChangesException)
             .Returns(new Exception());
         var command = Fixture.Create<CreateLogEventCommand>();
-        _collectionRepositoryMock.Setup(x => x.GetByNameAsync(command.CollectionName, default))
+        _collectionRepositoryMock.Setup(x => x.GetByIdAsync(command.CollectionId, default))
             .ReturnsAsync(Fixture.Create<EventCollection>());
 
         var result = await _sut.Handle(command, CancellationToken);
@@ -62,7 +62,7 @@ public class CreateLogEventCommandHandlerTests : TestBase
         var result = await _sut.Handle(command, CancellationToken);
 
         Assert.False(result.IsSuccess);
-        Assert.Equal(EventCollectionErrors.NotFound(nameof(EventCollection.Name), command.CollectionName), result.Error);
+        Assert.Equal(EventCollectionErrors.NotFound(nameof(EventCollection.Name), command.CollectionId), result.Error);
     }
 
     [Fact]
@@ -70,7 +70,7 @@ public class CreateLogEventCommandHandlerTests : TestBase
     {
         var command = Fixture.Create<CreateLogEventCommand>();
         command.Model.Args.Add("NewArg", "arg");
-        _collectionRepositoryMock.Setup(x => x.GetByNameAsync(command.CollectionName, default))
+        _collectionRepositoryMock.Setup(x => x.GetByIdAsync(command.CollectionId, default))
            .ReturnsAsync(Fixture.Create<EventCollection>());
 
         var result = await _sut.Handle(command, CancellationToken);

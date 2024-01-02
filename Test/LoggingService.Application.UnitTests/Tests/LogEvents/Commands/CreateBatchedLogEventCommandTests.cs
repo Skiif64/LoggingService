@@ -31,9 +31,9 @@ public class CreateBatchedLogEventCommandTests : TestBase
     {
         var command = Fixture.Create<CreateLogEventBatchedCommand>();
         var collection = Fixture.Build<EventCollection>()
-            .With(prop => prop.Name, command.CollectionName)
+            .With(prop => prop.Id, command.CollectionId)
             .Create();
-        _collectionRepositoryMock.Setup(x => x.GetByNameAsync(command.CollectionName, CancellationToken))
+        _collectionRepositoryMock.Setup(x => x.GetByIdAsync(command.CollectionId, CancellationToken))
             .ReturnsAsync(collection);
 
         var result = await _sut.Handle(command, CancellationToken);
@@ -49,7 +49,7 @@ public class CreateBatchedLogEventCommandTests : TestBase
         var result = await _sut.Handle(command, CancellationToken);
 
         result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(EventCollectionErrors.NotFound(nameof(EventCollection.Name), command.CollectionName));
+        result.Error.Should().Be(EventCollectionErrors.NotFound(nameof(EventCollection.Name), command.CollectionId));
     }
 
     [Fact]
@@ -57,9 +57,9 @@ public class CreateBatchedLogEventCommandTests : TestBase
     {
         var command = Fixture.Create<CreateLogEventBatchedCommand>();
         var collection = Fixture.Build<EventCollection>()
-            .With(prop => prop.Name, command.CollectionName)
+            .With(prop => prop.Id, command.CollectionId)
             .Create();
-        _collectionRepositoryMock.Setup(x => x.GetByNameAsync(command.CollectionName, CancellationToken))
+        _collectionRepositoryMock.Setup(x => x.GetByIdAsync(command.CollectionId, CancellationToken))
             .ReturnsAsync(collection);
         UnitOfWorkMock.SetupGet(prop => prop.SaveChangesException)
             .Returns(new Exception());
@@ -76,9 +76,9 @@ public class CreateBatchedLogEventCommandTests : TestBase
         var command = Fixture.Create<CreateLogEventBatchedCommand>();
         command.Models.First().Args.Add("NewArg", "arg");
         var collection = Fixture.Build<EventCollection>()
-            .With(prop => prop.Name, command.CollectionName)
+            .With(prop => prop.Id, command.CollectionId)
             .Create();
-        _collectionRepositoryMock.Setup(x => x.GetByNameAsync(command.CollectionName, CancellationToken))
+        _collectionRepositoryMock.Setup(x => x.GetByIdAsync(command.CollectionId, CancellationToken))
            .ReturnsAsync(collection);
 
         var result = await _sut.Handle(command, CancellationToken);

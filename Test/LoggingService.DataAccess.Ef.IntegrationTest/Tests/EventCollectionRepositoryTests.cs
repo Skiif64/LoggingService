@@ -23,26 +23,6 @@ public class EventCollectionRepositoryTests : TestBase
     }
 
     [Fact]
-    public async Task GetByNameAsync_ShouldReturnCollection_WhenCollectionWithNameContains()
-    {
-        var collection = Fixture.Create<EventCollection>();
-        await SeedAsync(collection);
-
-        var result = await _sut.GetByNameAsync(collection.Name, CancellationToken);
-
-        result.Should().NotBeNull();
-        result!.Name.Should().Be(collection.Name);
-    }
-
-    [Fact]
-    public async Task GetByNameAsync_ShouldReturnNull_WhenCollectionWithNameDoesNotContains()
-    {
-        var result = await _sut.GetByNameAsync("Some Name", CancellationToken);
-
-        result.Should().BeNull();
-    }
-
-    [Fact]
     public async Task ExistByNameAsync_ShouldReturnTrue_WhenCollectionWithNameExists()
     {
         var collection = Fixture.Create<EventCollection>();

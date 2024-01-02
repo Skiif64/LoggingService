@@ -30,11 +30,11 @@ internal sealed class CreateLogEventBatchedCommandHandler
     }
     public async Task<Result> Handle(CreateLogEventBatchedCommand request, CancellationToken cancellationToken)
     {
-        var collection = await _collectionRepository.GetByNameAsync(request.CollectionName, cancellationToken);
+        var collection = await _collectionRepository.GetByIdAsync(request.CollectionId, cancellationToken);
         if(collection is null)
         {
             return Result.Failure(
-                EventCollectionErrors.NotFound(nameof(EventCollection.Name), request.CollectionName));
+                EventCollectionErrors.NotFound(nameof(EventCollection.Name), request.CollectionId));
         }
         var logs = new List<LogEvent>();
         foreach(var logModel in request.Models)

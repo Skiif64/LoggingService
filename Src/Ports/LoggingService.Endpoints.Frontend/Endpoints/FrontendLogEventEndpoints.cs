@@ -18,13 +18,13 @@ public sealed class FrontendLogEventEndpoints
     private async Task<IResult> GetPagedAsync(
         [FromServices] ISender sender,
         [FromServices] IMapper mapper,
-        [FromRoute] string collectionName,
+        [FromRoute] Guid collectionId,
         [FromQuery] int pageIndex = 0,
         [FromQuery] int pageSize = 20,
         CancellationToken cancellationToken = default)
     {
         //TODO: validate page index & size
-        var query = new GetPagedLogEventsQuery(collectionName, pageIndex, pageSize);
+        var query = new GetPagedLogEventsQuery(collectionId, pageIndex, pageSize);
 
         var result = await sender.Send(query, cancellationToken);
         if (result.IsSuccess)

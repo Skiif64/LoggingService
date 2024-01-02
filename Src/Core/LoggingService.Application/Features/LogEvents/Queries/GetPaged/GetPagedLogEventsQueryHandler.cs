@@ -22,12 +22,12 @@ internal sealed class GetPagedLogEventsQueryHandler
     }
     public async Task<Result<PagedList<LogEventDto>>> Handle(GetPagedLogEventsQuery request, CancellationToken cancellationToken)
     {
-        var collection = await _collectionRepository.GetByNameAsync(request.CollectionName, cancellationToken);
+        var collection = await _collectionRepository.GetByIdAsync(request.CollectionId, cancellationToken);
         if(collection is null)
         {
-            _logger.LogWarning("EventCollection with name: {name} was not found", request.CollectionName);
+            _logger.LogWarning("EventCollection with name: {name} was not found", request.CollectionId);
             return Result.Failure<PagedList<LogEventDto>>(
-                EventCollectionErrors.NotFound(nameof(collection.Name), request.CollectionName));
+                EventCollectionErrors.NotFound(nameof(collection.Name), request.CollectionId));
         }
 
         var eventList = await _logRepository

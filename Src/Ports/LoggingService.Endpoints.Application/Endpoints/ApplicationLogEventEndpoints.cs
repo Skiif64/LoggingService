@@ -23,11 +23,11 @@ public sealed class ApplicationLogEventEndpoints
     private async Task<IResult> InsertAsync(HttpContext httpContext,
         [FromServices] ISender sender,
         [FromServices] IMapper mapper,
-        [FromRoute] string collectionName,
+        [FromRoute] Guid collectionId,
         [FromBody] CreateLogEventViewModel model,
         CancellationToken cancellationToken)
     {
-        var command = new CreateLogEventCommand(collectionName, mapper.Map<CreateLogEventDto>(model));
+        var command = new CreateLogEventCommand(collectionId, mapper.Map<CreateLogEventDto>(model));
         var result = await sender.Send(command, cancellationToken);
         if (result.IsSuccess)
         {
@@ -43,11 +43,11 @@ public sealed class ApplicationLogEventEndpoints
     private async Task<IResult> InsertBatchedAsync(HttpContext httpContext,
         [FromServices] ISender sender,
         [FromServices] IMapper mapper,
-        [FromRoute] string collectionName,
+        [FromRoute] Guid collectionId,
         [FromBody] IEnumerable<CreateLogEventViewModel> models,
         CancellationToken cancellationToken)
     {
-        var command = new CreateLogEventBatchedCommand(collectionName,
+        var command = new CreateLogEventBatchedCommand(collectionId,
             mapper.Map<IEnumerable<CreateLogEventDto>>(models));
         var result = await sender.Send(command, cancellationToken);
         if (result.IsSuccess)
