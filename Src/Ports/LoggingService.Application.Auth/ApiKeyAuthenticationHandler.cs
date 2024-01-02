@@ -38,6 +38,7 @@ public sealed class ApiKeyAuthenticationHandler : AuthenticationHandler<ApiKeyAu
         var identity = new ClaimsIdentity(getCredentialsResult.Value!.GetClaims(), AuthenticationSchemes.ApiKeyScheme);
         var principal = new ClaimsPrincipal(identity);
         var ticket = new AuthenticationTicket(principal, AuthenticationSchemes.ApiKeyScheme);
+        //TODO: log success
         return AuthenticateResult.Success(ticket);
     }
 }
