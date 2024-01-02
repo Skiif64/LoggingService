@@ -12,7 +12,7 @@ public sealed class FrontendLogEventEndpoints
 {
     public void ConfigureEndpoints(WebApplication app)
     {
-        app.MapGet("~/api/event/{collectionName}", GetPagedAsync);
+        app.MapGet("~/api/event/{collectionId}", GetPagedAsync);
     }
 
     private async Task<IResult> GetPagedAsync(

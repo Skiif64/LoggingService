@@ -15,8 +15,8 @@ public sealed class ApplicationLogEventEndpoints
 {    
     public void ConfigureEndpoints(WebApplication app)
     {
-        app.MapPost("~/api/event/{collectionName}", InsertAsync);
-        app.MapPost("~/api/event/{collectionName}/batched", InsertBatchedAsync);
+        app.MapPost("~/api/event/{collectionId}", InsertAsync);
+        app.MapPost("~/api/event/{collectionId}/batched", InsertBatchedAsync);
     }
     
     [Authorize(AuthenticationSchemes = AuthenticationSchemes.ApiKeyScheme)]
