@@ -13,8 +13,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace LoggingService.DataAccess.Ef.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231225180237_SeparateApplicationAndApiKeys")]
-    partial class SeparateApplicationAndApiKeys
+    [Migration("20240116193258_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -44,9 +44,6 @@ namespace LoggingService.DataAccess.Ef.Migrations
                     b.Property<Guid>("ApplicationId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<DateTime>("ExpireAtUtc")
                         .HasColumnType("timestamp with time zone");
 
@@ -66,9 +63,6 @@ namespace LoggingService.DataAccess.Ef.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -91,9 +85,6 @@ namespace LoggingService.DataAccess.Ef.Migrations
                     b.Property<Guid?>("ApplicationId")
                         .HasColumnType("uuid");
 
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("timestamp with time zone");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
@@ -111,22 +102,19 @@ namespace LoggingService.DataAccess.Ef.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<Dictionary<string, string>>("Args")
-                        .IsRequired()
-                        .HasColumnType("hstore");
-
                     b.Property<Guid>("CollectionId")
                         .HasColumnType("uuid");
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("timestamp with time zone");
 
                     b.Property<int>("LogLevel")
                         .HasColumnType("integer");
 
-                    b.Property<string>("Message")
+                    b.Property<string>("MessageTemplate")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<Dictionary<string, string>>("Properties")
+                        .IsRequired()
+                        .HasColumnType("hstore");
 
                     b.Property<DateTime>("Timestamp")
                         .HasColumnType("timestamp with time zone");
