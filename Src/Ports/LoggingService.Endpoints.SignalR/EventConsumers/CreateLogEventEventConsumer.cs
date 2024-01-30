@@ -25,7 +25,7 @@ internal sealed class CreateLogEventEventConsumer : IEventConsumer<LogEventCreat
     public async Task Handle(LogEventCreatedEvent notification, CancellationToken cancellationToken)
     {
         var mappedLogs = _mapper.Map<IEnumerable<LogEventViewModel>>(notification.Logs);
-        await _hub.Clients.Group(notification.CollectionName).SendLogEvents(mappedLogs);
-        _logger.LogInformation("Send {count} of log events to {collection} listeners", notification.Logs.Count(), notification.CollectionName);
+        await _hub.Clients.Group(notification.CollectionId.ToString()).SendLogEvents(mappedLogs);
+        _logger.LogInformation("Send {count} of log events to {collection} listeners", notification.Logs.Count(), notification.CollectionId);
     }
 }

@@ -1,8 +1,17 @@
 ﻿namespace LoggingService.Domain.Base;
 public abstract class BaseEntity : IEquatable<BaseEntity>
 {
-    public Guid Id { get; set; }
-    public DateTime CreatedAtUtc { get; set; }
+    public Guid Id { get; protected set; }
+
+    protected BaseEntity()
+    {
+        
+    }
+
+    protected BaseEntity(Guid id)
+    {
+        Id = id;
+    }
 
     public override bool Equals(object? obj)
     {
@@ -21,12 +30,12 @@ public abstract class BaseEntity : IEquatable<BaseEntity>
             return false;
         }
 
-        return Id == other.Id
-            && CreatedAtUtc == other.CreatedAtUtc;
+        return Id == other.Id;
+
     }
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(Id, CreatedAtUtc);
+        return Id.GetHashCode();
     }
 }

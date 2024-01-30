@@ -4,13 +4,13 @@ using LoggingService.Domain.Shared;
 namespace LoggingService.Domain.Features.LogEvents;
 public class LogEvent : BaseEntity
 {
-    public DateTime Timestamp { get; set; }
-    public Guid CollectionId { get; set; }
-    public LogEventLevel LogLevel { get; set; }
-    public string Message { get; set; } = null!;
-    public Dictionary<string, string> Args { get; set; } = null!;
+    public DateTime Timestamp { get; private set; }
+    public Guid CollectionId { get; private set; }
+    public LogEventLevel LogLevel { get; private set; }
+    public string MessageTemplate { get; private set; } = null!;
+    public Dictionary<string, string> Properties { get; private set; } = null!;
 
-    private LogEvent()
+    private LogEvent() : base()
     {
         
     }
@@ -23,15 +23,15 @@ public class LogEvent : BaseEntity
         {
             return Result.Failure<LogEvent>(validateResult.Error!.Value);
         }
+        
         var logEvent = new LogEvent
         {
             Id = Guid.NewGuid(),
-            CreatedAtUtc = DateTime.UtcNow,
             Timestamp = timestamp,
             CollectionId = collectionId,
             LogLevel = logLevel,
-            Message = message,
-            Args = args,
+            MessageTemplate = message,
+            Properties = args,
         };
         return Result.Success(logEvent);
     }

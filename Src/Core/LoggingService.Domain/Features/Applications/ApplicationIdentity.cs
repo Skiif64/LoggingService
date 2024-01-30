@@ -2,10 +2,11 @@
 using LoggingService.Domain.Base;
 
 namespace LoggingService.Domain.Features.Applications;
-public class ApplicationIdentity : BaseEntity //TODO: private setters, ctor, move to domain?
+public class ApplicationIdentity : BaseEntity
 {
     public string Name { get; private set; } = null!;
-    private ApplicationIdentity()
+    public DateTime CreatedAtUtc { get; private set; }
+    private ApplicationIdentity() : base()
     {
         
     }
@@ -23,8 +24,8 @@ public class ApplicationIdentity : BaseEntity //TODO: private setters, ctor, mov
         return new ApplicationIdentity
         {
             Id = Guid.NewGuid(),
-            CreatedAtUtc = DateTime.UtcNow,
             Name = name,
+            CreatedAtUtc = DateTime.UtcNow
         };
     }
 }

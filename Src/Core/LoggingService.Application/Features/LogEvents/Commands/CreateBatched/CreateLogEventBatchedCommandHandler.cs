@@ -59,7 +59,7 @@ internal sealed class CreateLogEventBatchedCommandHandler
             return Result.Failure(ApplicationErrors.SaveChangesError);
         }
 
-        await _bus.PublishAsync(new LogEventCreatedEvent(collection.Name, logs), cancellationToken);
+        await _bus.PublishAsync(new LogEventCreatedEvent(collection.Id, logs), cancellationToken);
         return Result.Success();
     }
 }

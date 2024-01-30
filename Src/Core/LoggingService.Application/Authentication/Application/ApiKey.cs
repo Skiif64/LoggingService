@@ -8,6 +8,7 @@ public sealed class ApiKey : BaseEntity
 {
     public string ApiKeyPrefix { get; private set; } = null!;
     public byte[] ApiKeyHash { get; private set; } = null!;
+    public DateTime CreatedAtUtc { get; private set; }
     public DateTime ExpireAtUtc { get; private set; }
     public Guid ApplicationId { get; private set; }
     private ApiKey()
@@ -20,9 +21,9 @@ public sealed class ApiKey : BaseEntity
         return new ApiKey
         {
             Id = Guid.NewGuid(),
-            CreatedAtUtc = DateTime.UtcNow,
             ApiKeyPrefix = prefix,
             ApiKeyHash = hash,
+            CreatedAtUtc = DateTime.UtcNow,
             ExpireAtUtc = expireAtUtc,
             ApplicationId = applicationId,
         };
