@@ -4,7 +4,6 @@ namespace LoggingService.DataAccess.Ef;
 internal sealed class UnitOfWork : IUnitOfWork
 {
     private readonly ApplicationDbContext _context;
-    public Exception? SaveChangesException { get; private set; }
 
     public UnitOfWork(ApplicationDbContext context)
     {
@@ -43,13 +42,6 @@ internal sealed class UnitOfWork : IUnitOfWork
 
     public async Task SaveChangesAsync(CancellationToken cancellationToken)
     {
-        try
-        {
-            await _context.SaveChangesAsync(cancellationToken);
-        }
-        catch (Exception exception)
-        {
-            SaveChangesException = exception;
-        }
+        await _context.SaveChangesAsync(cancellationToken);
     }
 }
