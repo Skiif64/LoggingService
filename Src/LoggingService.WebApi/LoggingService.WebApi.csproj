@@ -24,8 +24,6 @@
     <ProjectReference Include="..\Ports\LoggingService.Application.Auth\LoggingService.Application.Auth.csproj" />
     <ProjectReference Include="..\Ports\LoggingService.DataAccess.Ef\LoggingService.DataAccess.Ef.csproj" />
     <ProjectReference Include="..\LoggingService.WebApi.Contracts\LoggingService.WebApi.Contracts.csproj" />
-    <ProjectReference Include="..\Ports\LoggingService.Endpoints.Application\LoggingService.Endpoints.Application.csproj" />
-    <ProjectReference Include="..\Ports\LoggingService.Endpoints.Frontend\LoggingService.Endpoints.Frontend.csproj" />
     <ProjectReference Include="..\Ports\LoggingService.Endpoints.SignalR\LoggingService.Endpoints.SignalR.csproj" />
   </ItemGroup>
 

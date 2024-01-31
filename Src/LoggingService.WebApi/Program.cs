@@ -3,8 +3,6 @@ using LoggingService.DataAccess.Ef;
 using Mapster;
 using MapsterMapper;
 using Microsoft.AspNetCore.HttpLogging;
-using LoggingService.Endpoints.Application;
-using LoggingService.Endpoints.Frontend;
 using LoggingService.Endpoints.SignalR;
 using LoggingService.Application.Auth;
 
@@ -42,8 +40,6 @@ app.MapControllers();
 
 app.UseApplicationAuthenticationEndpoints();
 
-app.UseApplicationEndpoints();
-app.UseFrontendEndpoints();
 app.UseHubs();
 
 app.Run();
