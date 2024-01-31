@@ -2,7 +2,6 @@
 using LoggingService.Application.Authentication.Application;
 using LoggingService.Application.Base;
 using LoggingService.Domain.Shared;
-using LoggingService.Application.Errors;
 using LoggingService.Domain.Features.Applications;
 using ApplicationIdentity = LoggingService.Domain.Features.Applications.ApplicationIdentity;
 
@@ -66,11 +65,7 @@ internal sealed class ApplicationAuthenticationService : IApplicationAuthenticat
         await _apiKeyRepository.InsertAsync(apiKey, cancellationToken);
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        if(_unitOfWork.SaveChangesException is not null)
-        {
-            return Result.Failure<string>(ApplicationErrors.SaveChangesError);
-        }
-
+        
         var key = $"{prefix}.{secret}";
         return Result.Success(key);
     }
@@ -92,11 +87,7 @@ internal sealed class ApplicationAuthenticationService : IApplicationAuthenticat
         
         _apiKeyRepository.Update(key);
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        if (_unitOfWork.SaveChangesException is not null)
-        {
-            return Result.Failure<string>(ApplicationErrors.SaveChangesError);
-        }
-
+        
         var newKey = $"{key.ApiKeyPrefix}.{newSecret}";
         return Result.Success(newKey);
     }
@@ -111,11 +102,7 @@ internal sealed class ApplicationAuthenticationService : IApplicationAuthenticat
         _apiKeyRepository.Delete(key);
         
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        if(_unitOfWork.SaveChangesException is not null)
-        {
-            return Result.Failure(ApplicationErrors.SaveChangesError);
-        }
-
+        
         return Result.Success();
     }
     
