@@ -1,9 +1,7 @@
 ﻿using AutoFixture;
-using LoggingService.Application.Errors;
 using LoggingService.Application.Features.LogEvents.Commands.Create;
 using LoggingService.Domain.Features.EventCollections;
 using LoggingService.Domain.Features.LogEvents;
-using LoggingService.Domain.Shared;
 using Microsoft.Extensions.Logging;
 
 namespace LoggingService.Application.UnitTests.Tests.LogEvents.Commands;
@@ -37,21 +35,6 @@ public class CreateLogEventCommandHandlerTests : TestBase
         var result = await _sut.Handle(command, CancellationToken);
 
         Assert.True(result.IsSuccess, $"Result is not success | error: {result.Error}");
-    }
-
-    [Fact]
-    public async Task Handle_ShouldReturnDatabaseError_WhenUnitOfWorkCannotSaveChanges()
-    {
-        UnitOfWorkMock.Setup(x => x.SaveChangesException)
-            .Returns(new Exception());
-        var command = Fixture.Create<CreateLogEventCommand>();
-        _collectionRepositoryMock.Setup(x => x.GetByIdAsync(command.CollectionId, default))
-            .ReturnsAsync(Fixture.Create<EventCollection>());
-
-        var result = await _sut.Handle(command, CancellationToken);
-
-        Assert.False(result.IsSuccess, $"Result is success");
-        Assert.Equal(ApplicationErrors.SaveChangesError, result.Error);
     }
 
     [Fact]

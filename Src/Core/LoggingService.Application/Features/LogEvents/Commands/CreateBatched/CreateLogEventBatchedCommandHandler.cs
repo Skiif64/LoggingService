@@ -1,6 +1,5 @@
 ﻿using LoggingService.Application.Base;
 using LoggingService.Application.Base.Messaging;
-using LoggingService.Application.Errors;
 using LoggingService.Application.Features.LogEvents.Commands.Create;
 using LoggingService.Domain.Features.EventCollections;
 using LoggingService.Domain.Features.LogEvents;
@@ -52,13 +51,7 @@ internal sealed class CreateLogEventBatchedCommandHandler
         await _logRepository.InsertManyAsync(logs, cancellationToken);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        if(_unitOfWork.SaveChangesException is not null)
-        {
-            _logger.LogCritical("Unable to save changes to database | exception: {message}",
-                _unitOfWork.SaveChangesException.Message);
-            return Result.Failure(ApplicationErrors.SaveChangesError);
-        }
-
+        
         await _bus.PublishAsync(new LogEventCreatedEvent(collection.Id, logs), cancellationToken);
         return Result.Success();
     }

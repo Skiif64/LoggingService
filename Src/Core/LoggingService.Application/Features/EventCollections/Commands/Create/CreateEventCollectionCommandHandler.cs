@@ -1,6 +1,5 @@
 ﻿using LoggingService.Application.Base;
 using LoggingService.Application.Base.Messaging;
-using LoggingService.Application.Errors;
 using LoggingService.Domain.Features.EventCollections;
 using LoggingService.Domain.Shared;
 using Microsoft.Extensions.Logging;
@@ -35,12 +34,7 @@ internal sealed class CreateEventCollectionCommandHandler
         await _collectionRepository.InsertAsync(collection, cancellationToken);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
-        if(_unitOfWork.SaveChangesException is not null)
-        {
-            _logger.LogCritical("Unable to save changes to database | exception: {message}",
-                _unitOfWork.SaveChangesException.Message);
-            return Result.Failure(ApplicationErrors.SaveChangesError);
-        }
+        
         return Result.Success();
     }
 }

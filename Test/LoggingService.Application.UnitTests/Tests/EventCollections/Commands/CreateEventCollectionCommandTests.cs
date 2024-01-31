@@ -1,7 +1,4 @@
-﻿using Castle.Core.Logging;
-using FluentAssertions;
-using LoggingService.Application.Errors;
-using LoggingService.Application.Features.EventCollections.Commands.Create;
+﻿using LoggingService.Application.Features.EventCollections.Commands.Create;
 using LoggingService.Domain.Features.EventCollections;
 using Microsoft.Extensions.Logging;
 
@@ -44,17 +41,5 @@ public class CreateEventCollectionCommandTests : TestBase
         result.Error.Should().Be(EventCollectionErrors.Duplicate(nameof(EventCollection.Name), command.Name));
 
         _collectionRepositoryMock.Verify(x => x.InsertAsync(It.IsAny<EventCollection>(), default), Times.Never);
-    }
-
-    [Fact]
-    public async Task Handle_ShouldReturnSaveChangesError_WhenUnableToSaveChanges()
-    {
-        var command = new CreateEventCollectionCommand("TestCollection", Guid.NewGuid());
-        UnitOfWorkMock.SetupGet(x => x.SaveChangesException)
-            .Returns(new Exception());
-        var result = await _sut.Handle(command, CancellationToken);
-
-        result.IsSuccess.Should().BeFalse();
-        result.Error.Should().Be(ApplicationErrors.SaveChangesError);
     }
 }

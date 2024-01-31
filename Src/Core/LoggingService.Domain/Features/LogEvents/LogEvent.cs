@@ -21,7 +21,7 @@ public class LogEvent : BaseEntity
         var validateResult = LogEventValidation.Validate(message, args);
         if(!validateResult.IsSuccess)
         {
-            return Result.Failure<LogEvent>(validateResult.Error!.Value);
+            return Result.Failure<LogEvent>(validateResult.Error);
         }
         
         var logEvent = new LogEvent
