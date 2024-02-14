@@ -2,6 +2,7 @@
 
 public sealed class LogEventViewModel
 {
+    public required Guid Id { get; init; }
     public required DateTime Timestamp { get; init; }
     public required Guid CollectionId { get; init; }
     public required LogEventLevelViewModel LogLevel { get; init; }
