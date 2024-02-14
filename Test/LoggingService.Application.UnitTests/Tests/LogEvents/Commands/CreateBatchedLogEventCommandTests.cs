@@ -2,6 +2,7 @@
 using LoggingService.Application.Features.LogEvents.Commands.CreateBatched;
 using LoggingService.Domain.Features.EventCollections;
 using LoggingService.Domain.Features.LogEvents;
+using LoggingService.Tests.Shared.Fakes;
 using Microsoft.Extensions.Logging;
 
 namespace LoggingService.Application.UnitTests.Tests.LogEvents.Commands;
@@ -26,10 +27,9 @@ public class CreateBatchedLogEventCommandTests : TestBase
     [Fact]
     public async Task Handle_ShouldReturnSuccessResult()
     {
-        var command = Fixture.Create<CreateLogEventBatchedCommand>();
-        var collection = Fixture.Build<EventCollection>()
-            .With(prop => prop.Id, command.CollectionId)
-            .Create();
+        var createDtos = Fake.LogEvent.CreateLogEventCreateDtoFaker().Generate(10);
+        var collection = Fake.EventCollection.CreateEventCollectionFaker().Generate();
+        var command = new CreateLogEventBatchedCommand(collection.Id, createDtos);
         _collectionRepositoryMock.Setup(x => x.GetByIdAsync(command.CollectionId, CancellationToken))
             .ReturnsAsync(collection);
 
@@ -41,7 +41,8 @@ public class CreateBatchedLogEventCommandTests : TestBase
     [Fact]
     public async Task Handle_ShouldReturnNotFoundError_WhenCollectionDoesNotExists()
     {
-        var command = Fixture.Create<CreateLogEventBatchedCommand>();
+        var createDtos = Fake.LogEvent.CreateLogEventCreateDtoFaker().Generate(10);
+        var command = new CreateLogEventBatchedCommand(Guid.NewGuid(), createDtos);
 
         var result = await _sut.Handle(command, CancellationToken);
 
@@ -52,11 +53,10 @@ public class CreateBatchedLogEventCommandTests : TestBase
     [Fact]
     public async Task Handle_ShouldReturnParseError_WhenMessageDoesNotMatchToArgs()
     {
-        var command = Fixture.Create<CreateLogEventBatchedCommand>();
-        command.Models.First().Args.Add("NewArg", "arg");
-        var collection = Fixture.Build<EventCollection>()
-            .With(prop => prop.Id, command.CollectionId)
-            .Create();
+        var createDtos = Fake.LogEvent.CreateLogEventCreateDtoFaker().Generate(10);
+        var collection = Fake.EventCollection.CreateEventCollectionFaker().Generate();
+        var command = new CreateLogEventBatchedCommand(collection.Id, createDtos);
+        createDtos[0].Args.Add("Invalid arg", "Invalid args");
         _collectionRepositoryMock.Setup(x => x.GetByIdAsync(command.CollectionId, CancellationToken))
            .ReturnsAsync(collection);
 
